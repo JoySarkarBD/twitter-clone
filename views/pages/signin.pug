@@ -1,0 +1,50 @@
+extends ./../layouts/header.pug
+
+
+
+block title
+    title= title 
+
+
+
+block cssLink
+    link(rel="stylesheet", href="/css/signin.css")
+
+
+
+block jsScript
+    script(src="/js/signin.js" defer) 
+
+
+
+block bodyContent
+    .signin-section
+        .wrapper
+            .signin-wrapper
+                div.social-icon
+                    i.fab.fa-twitter
+
+                h2 Sign in to Twitter Clone
+
+                form(action='/signin', method="post")
+                    label(for="username") User Name or Email
+
+                    .user-input 
+                        i.user-icon.fas.fa-user
+                        input#username(type="text", name="username"  class="form-control" required="")
+                    
+                    p.error.username-error Username is required 
+
+
+                    label(for="password")  Password
+
+                    .user-input 
+                        i.user-icon.fas.fa-lock
+                        input#password(type="password", name="password"  class="form-control" required="")
+                    
+                    p.error.password-error Password is required 
+
+                    input(type="submit", value="Sign In" class="form-control signin-btn")
+
+                p.disclaim New User? 
+                    a(href='/signup') sign up here

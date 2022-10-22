@@ -1,0 +1,20 @@
+extends ./../layouts/header.pug
+
+
+
+block title
+    title= title
+
+
+
+block cssLink
+    link(rel="stylesheet", href="/css/error.css")
+
+
+
+
+block bodyContent
+    div.errorBody
+        h4.errStatus= error.status
+        h5= error.message
+        p.errStack= error.stack

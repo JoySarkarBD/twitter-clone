@@ -1,0 +1,16 @@
+/*=== Error===*/
+.errorBody {
+  text-align: center;
+  padding-top: 50px;
+  background: #0D1117;
+  color: #E9FFFF;
+  height: 100vh;
+}
+.errorBody .errStatus {
+  font-size: 50px;
+}
+.errorBody .errStack {
+  padding-top: 20px;
+  width: 50%;
+  margin: 0 auto;
+}
