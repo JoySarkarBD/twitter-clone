@@ -1,0 +1,27 @@
+extends ./../../layouts/header.pug
+
+
+block title
+    title= title 
+
+
+
+block cssLink
+    link(rel="stylesheet", href="/css/home.css")
+
+
+
+block jsScript
+    script(src="/js/home.js" defer) 
+
+
+
+block bodyContent
+    .mx-auto.text-center.my-5 
+            h3.text-success Hello #{user.firstName} 
+    
+            p.text-primary user name: #{user.userName}
+
+            p.text-primary email: #{user.email}
+
+            a(href="/logout").btn.btn-primary Sign Out

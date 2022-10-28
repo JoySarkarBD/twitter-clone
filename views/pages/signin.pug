@@ -27,13 +27,13 @@ block bodyContent
                 h2 Sign in to Twitter Clone
 
                 form(action='/signin', method="post")
-                    label(for="username") User Name or Email
+                    label(for="userName") User Name or Email
 
                     .user-input 
                         i.user-icon.fas.fa-user
-                        input#username(type="text", name="username"  class="form-control" required="")
+                        input#userName(type="text", name="userName"  class="form-control" required="")
                     
-                    p.error.username-error Username is required 
+                    p.error.userName-error userName is required 
 
 
                     label(for="password")  Password

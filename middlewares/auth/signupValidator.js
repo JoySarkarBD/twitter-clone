@@ -14,10 +14,11 @@ const signupDataValidator = () => {
     check("userName")
       .trim()
       .notEmpty()
+      .toLowerCase()
       .withMessage("User name is required!")
       .custom(async (val, { req }) => {
         try {
-          const user = await User.findOne({ username: val }, { username: 1 });
+          const user = await User.findOne({ userName: val }, { userName: 1 });
           if (user) {
             return Promise.reject();
           } else {
@@ -28,7 +29,7 @@ const signupDataValidator = () => {
         }
       })
       .isLength({ min: 3 })
-      .withMessage("Username should have minimum 3 characters!"),
+      .withMessage("userName should have minimum 3 characters!"),
 
     // email
     check("email")
@@ -69,9 +70,9 @@ const signupDataValidator = () => {
         const pass = req.body.password;
         // matching password with confirm password field
         if (val === pass) {
-          return false;
-        } else {
           return true;
+        } else {
+          return false;
         }
       })
       .withMessage("Password doesn't match!"),

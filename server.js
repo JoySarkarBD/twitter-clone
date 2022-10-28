@@ -9,6 +9,7 @@ const {
 } = require("./middlewares/common/errorHandler");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/authRoute");
+const homeRoute = require("./routes/home/homeRoute");
 
 // App Initialization and Config
 const app = express();
@@ -22,10 +23,12 @@ app.set("views", "views");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Routes
 app.use(authRouter);
+
+app.use("/", homeRoute); //Home Route
 
 // Not Found Handler
 app.use(notFoundHandler);
