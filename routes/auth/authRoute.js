@@ -14,6 +14,8 @@ const signInValidation = require("../../controllers/auth/signInValidation");
 const signinController = require("../../controllers/auth/signInController");
 const loginChecker = require("../../middlewares/common/loginChecker");
 const logout = require("../../controllers/auth/logoutController");
+const getResetPasswordPage = require("../../controllers/auth/getResetPasswordPage");
+const getRestPasswordOTP = require("../../controllers/auth/getRestPasswordOTP");
 
 // Router
 const router = Router();
@@ -61,6 +63,20 @@ router.get("/emailConfirmation/:id", emailConfirmation);
 
 //logout controller
 router.get("/logout", logout);
+
+// reset password or forget password controller
+router.get(
+  "/resetPassword",
+  htmlResponse(`Reset Password - ${process.env.APP_NAME}`),
+  getResetPasswordPage
+);
+
+// verify otp controller
+router.post(
+  "/resetPassword",
+  htmlResponse(`Verify OTP - ${process.env.APP_NAME}`),
+  getRestPasswordOTP
+);
 
 // Module Export
 module.exports = router;
