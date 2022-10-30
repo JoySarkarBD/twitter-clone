@@ -8,7 +8,6 @@ const createHttpError = require("http-errors");
 const signupController = async (req, res, next) => {
   // handle file upload error
   if (Object.keys(req.error ? req.error : {}).length !== 0) {
-    console.log("error: " + req.error);
     return res.render("pages/signup", {
       user: req.body,
       error: req.error,
@@ -20,8 +19,6 @@ const signupController = async (req, res, next) => {
     const email = req.body.email;
     const password = await hashString(req.body.password);
     const avatarProfile = req.file?.filename || "defaultAvatar.jpg";
-
-    console.log(req.file);
 
     const userObj = User({
       firstName,

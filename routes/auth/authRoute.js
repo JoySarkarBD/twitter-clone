@@ -10,13 +10,16 @@ const getSignIn = require("../../controllers/auth/getSignIn");
 const getSignUp = require("../../controllers/auth/getSignUp");
 const emailConfirmation = require("../../controllers/auth/emailconfirmation");
 const signinDataValidator = require("../../controllers/auth/signinDataValidator");
-const signInValidation = require("../../controllers/auth/signInValidation");
+const signInValidationResult = require("../../controllers/auth/signinValidationResult");
 const signinController = require("../../controllers/auth/signInController");
 const loginChecker = require("../../middlewares/common/loginChecker");
 const logout = require("../../controllers/auth/logoutController");
 const getResetPasswordPage = require("../../controllers/auth/getResetPasswordPage");
 const getResetPasswordOTP = require("../../controllers/auth/getResetPasswordOTP");
 const verifyOTP = require("../../controllers/auth/verifyOTP");
+const updateNewPassword = require("../../controllers/auth/updatePassword");
+const updatePasswordValidator = require("../../controllers/auth/updatePasswordValidator");
+const updatePasswordValidatorResult = require("../../controllers/auth/updatePasswordValidatorResult");
 
 // Router
 const router = Router();
@@ -55,7 +58,7 @@ router.post(
   "/signin",
   htmlResponse(`SignIn - ${process.env.APP_NAME}`),
   signinDataValidator(),
-  signInValidation,
+  signInValidationResult,
   signinController
 );
 
@@ -84,6 +87,15 @@ router.post(
   "/OTP-verification",
   htmlResponse(`Verify OTP - ${process.env.APP_NAME}`),
   verifyOTP
+);
+
+// create new password route after opt validation
+router.post(
+  "/createNewPassword",
+  htmlResponse(`Create New Password - ${process.env.APP_NAME}`),
+  updatePasswordValidator(),
+  updatePasswordValidatorResult,
+  updateNewPassword
 );
 
 // Module Export

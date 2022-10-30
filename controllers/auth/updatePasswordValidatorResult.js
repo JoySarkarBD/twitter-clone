@@ -1,25 +1,24 @@
 // Dependencies
 const { validationResult } = require("express-validator");
 
-const signInValidation = (req, res, next) => {
+const updatePasswordValidatorResult = (req, res, next) => {
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
-
   if (Object.keys(mappedErrors).length === 0) {
     next();
   } else {
     try {
-      console.log(mappedErrors);
-      return res.render("pages/signin", {
-        user: req.body ? req.body : {},
+      return res.render("pages/auth/createNewPassword", {
         error: mappedErrors,
+        opt: {
+          otpId: req.otpId,
+          otp: req.otp,
+        },
       });
     } catch (error) {
       throw error;
-      console.log(error);
     }
   }
 };
 
-// Module Export
-module.exports = signInValidation;
+module.exports = updatePasswordValidatorResult;
