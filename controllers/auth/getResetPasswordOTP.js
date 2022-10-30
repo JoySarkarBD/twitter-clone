@@ -24,7 +24,7 @@ const getRestPasswordOTP = async (req, res, next) => {
 
     if (user) {
       const otpObj = new OTP({
-        OTP: Math.floor(Math.random() * 900000 + 100000),
+        otp: Math.floor(Math.random() * 900000 + 100000),
         email: user.email,
         expireIn: Date.now() + 180000,
       });
@@ -35,7 +35,7 @@ const getRestPasswordOTP = async (req, res, next) => {
         [user.email],
         {
           subject: "Reset your twitter password",
-          template: `Your OTP is: ${otp.OTP}`,
+          template: `Your OTP is: ${otp.otp}`,
           attachments: [],
         },
 

@@ -3,17 +3,17 @@ const { Schema, model } = require("mongoose");
 
 const otpSchema = new Schema(
   {
-    OTP: {
+    otp: {
       type: Number,
       required: true,
       trim: true,
       minLength: 6,
     },
-    // status: {
-    //   type: boolean,
-    //   required: true,
-    //   default: false,
-    // },
+    status: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     email: {
       type: String,
       required: true,

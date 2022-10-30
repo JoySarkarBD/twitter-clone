@@ -44,7 +44,7 @@ block bodyContent
                         input#password(type="password", name="password"  class="form-control" value=error.password ? "" : user.password)
                     
                     if error.password
-                        p.error.userName-error #{error.password-msg} 
+                        p.error.userName-error #{error.password.msg} 
 
                     input(type="submit", value="Sign In" class="form-control signin-btn")
 
