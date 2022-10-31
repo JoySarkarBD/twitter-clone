@@ -23,7 +23,6 @@ const updateNewPassword = async (req, res, next) => {
           },
         }
       );
-      console.log(result);
       if (result) {
         const token = await jwt.sign(
           {

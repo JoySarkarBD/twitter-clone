@@ -44,7 +44,6 @@ const signupController = async (req, res, next) => {
               title: `Confirmation - ${process.env.APP_NAME}`,
             });
           } else {
-            console.log(err);
             next(createHttpError(500, "Internal server error."));
           }
         }
