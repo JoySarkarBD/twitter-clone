@@ -5,12 +5,13 @@ const updatePasswordValidator = () => {
   return [
     // Password
     check("password")
-      .trim()
       .isStrongPassword()
       .withMessage("Password is not strong.")
       .custom((value, { req }) => {
         req.password = value;
+        return true;
       }),
+
     check("confirmPassword")
       .custom((value, { req }) => {
         const password = req.password;

@@ -9,13 +9,13 @@ const updateNewPassword = async (req, res, next) => {
   try {
     const otpIn = req.body?.otp;
     const otpId = req.body?.otpId;
-    const password = req.password;
+    const password = req.body?.password;
 
     const otpObj = await OTP.findOne({ _id: otpId });
 
     if (Number(otpIn) === otpObj.otp && otpObj.status) {
       const newPass = await hashString(password);
-      const result = await User.findByIdAndUpdate(
+      const result = await User.findOneAndUpdate(
         { email: otpObj?.email },
         {
           $set: {
@@ -27,8 +27,8 @@ const updateNewPassword = async (req, res, next) => {
       if (result) {
         const token = await jwt.sign(
           {
-            userName: req.userName,
-            email: req.email,
+            userName: result.userName,
+            email: result.email,
           },
           process.env.JWT_SECRET,
           { expiresIn: "24h" }
@@ -39,10 +39,10 @@ const updateNewPassword = async (req, res, next) => {
 
         res.redirect("/");
       } else {
-        createHttpError(500, "Internal server problem....!");
+        throw createHttpError(500, "Internal server problem....!");
       }
     } else {
-      createHttpError(500, "Internal server problem....!");
+      throw createHttpError(500, "Internal server problem....!");
     }
   } catch (error) {
     next(error);
