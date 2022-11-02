@@ -14,7 +14,7 @@ block cssLink
 
 
 block jsScript
-    script(src="/js/signin.js" defer) 
+    script(src="/js/signup.js" defer) 
 
 
 
@@ -33,8 +33,8 @@ block bodyContent
 
                         div
                             label(for="firstName") First Name
-
-                            input#firstName(type="text", name="firstName" class="form-control" value= user ? user.firstName : '' required="")
+                                input#firstName(type="text", name="firstName" class="form-control" value= user ? user.firstName : '' required="")
+                                
 
                             if error.firstName 
                                 p.error.firstName-error #{error.firstName.msg}
@@ -69,20 +69,28 @@ block bodyContent
 
                         div 
                             label(for="password")  Password
+                            .passContainer.d-flex.align-items-center
+                                input#password(type="password", name="password" class="form-control" value= user && !error.password && !error.confirmPassword ? user.password : '' required="")
 
-                            input#password(type="password", name="password" class="form-control" value= user && !error.password && !error.confirmPassword ? user.password : '' required="")
+                                span#passEyeIcon 
+                                    i.fas.fa-eye-slash 
 
-                            if error.password 
+                            if error.password
                                 p.error.password-error #{error.password.msg}
-
 
                         div 
                             label(for="confirmPassword")  Confirm password
+                            .passContainer.d-flex.align-items-center
+                                input#confirmPassword(type="password", name="confirmPassword" class="form-control" value= user && !error.password && !error.confirmPassword ? user.confirmPassword : '' required="")
 
-                            input#confirmPassword(type="password", name="confirmPassword" class="form-control" value= user && !error.password && !error.confirmPassword ? user.confirmPassword : '' required="")
-                            
+                                span#confirmPassEyeIcon 
+                                    i.fas.fa-eye-slash
+
                             if error.confirmPassword 
                                 p.error.confirmPassword-error #{error.confirmPassword.msg}
+
+                    p#pass_errors 
+                    p#pass_matched 
 
                     label(for="avatarProfile")  Profile Avatar
 

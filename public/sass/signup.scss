@@ -36,15 +36,11 @@
 .signup-content {
   display: flex;
   justify-content: space-between;
-  div {
-    margin-right: 10px;
-  }
 }
 
 label {
   font-size: 14px;
   margin-top: 20px;
-  margin-bottom: 4px;
   color: #7a8791;
 }
 
@@ -89,6 +85,19 @@ a {
   width: 100%;
 }
 
+.passContainer {
+  position: relative;
+  span {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+}
+
+#pass_errors {
+  color: red;
+  margin-top: 5px;
+}
 // .form-control[type=file]:not(:disabled):not([readonly]) {
 //     background: red;
 // }

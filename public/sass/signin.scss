@@ -89,3 +89,12 @@ a {
   color: #7a8791;
   font-size: 14px;
 }
+
+.passContainer {
+  position: relative;
+  span {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
+}
