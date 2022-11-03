@@ -1,0 +1,148 @@
+$twitter-color: rgb(29, 155, 240);
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+
+.main {
+  max-width: 1255px;
+  width: 100%;
+  margin: auto;
+  height: 100vh;
+  .left_part {
+    max-width: 275px;
+    width: 100%;
+    .upper_part {
+      height: 548px;
+      background: white;
+      .logo {
+        width: 47px;
+        height: 47px;
+        margin: 2px 0px 3px 0px;
+        border-radius: 50%;
+        transition: all 0.5s;
+        cursor: pointer;
+        &:hover {
+          background: #e8f5fd;
+        }
+        i {
+          font-size: 26.49px;
+          color: $twitter-color;
+        }
+      }
+      .nav {
+        nav {
+          a {
+            padding: 14px 10px 14px 10px;
+            transition: all 0.2s;
+            .notify_no {
+              span {
+                font-size: 1px !important;
+                background-color: $twitter-color;
+                padding: 1px 7px 1px 7px;
+                margin-left: 0;
+                color: white;
+              }
+              top: 0;
+              left: -9px;
+            }
+            span {
+              font-size: 18px;
+              margin-left: 18px;
+            }
+            svg {
+              width: 24.5px;
+            }
+            &:hover {
+              background-color: #e7e7e8;
+              border-radius: 27px;
+            }
+          }
+        }
+      }
+      .twitter_btn {
+        background-color: #1d9bf0;
+        width: 81%;
+        text-align: center;
+        outline: none;
+        margin-bottom: 4px;
+        margin-top: 4px;
+        padding: 13px 20px 13px 20px;
+        transition: all 0.5s;
+        &:hover {
+          background-color: #1a8cd8;
+        }
+        a {
+          font-size: 14px;
+          font-weight: 700;
+          color: white;
+        }
+      }
+    }
+    .lower_part {
+      .user_info {
+        width: 95%;
+        padding: 10px 15px 10px 15px;
+        margin: -13px 0px;
+        transition: all 0.2s;
+        cursor: pointer;
+        &:hover {
+          background-color: #e7e7e8;
+        }
+      }
+      height: 58px;
+      .info {
+        padding-left: 10px;
+        h4 {
+          font-size: 15px;
+        }
+        span {
+          font-size: 10px;
+          color: #75828d;
+        }
+      }
+      .avatar {
+        img {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+        }
+      }
+      .ellips {
+        width: 15px;
+      }
+    }
+  }
+  .main-content {
+    max-width: 990px;
+    width: 100%;
+    .center_part {
+      max-width: 598px;
+      width: 100%;
+      background: orange;
+    }
+    .end_part {
+      max-width: 350px;
+      width: 100%;
+      background: green;
+    }
+  }
+}

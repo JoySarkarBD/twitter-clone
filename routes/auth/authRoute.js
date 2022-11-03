@@ -90,7 +90,7 @@ router.post(
 );
 
 // create new password route after opt validation
-router.get(
+router.post(
   "/createNewPassword",
   htmlResponse(`Create New Password - ${process.env.APP_NAME}`),
   updatePasswordValidator(),
