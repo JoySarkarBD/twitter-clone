@@ -84,7 +84,15 @@ block bodyContent
                     .twitter_btn(type="button").rounded-pill 
                         a(href="compose/tweet") 
                             | Tweet
-            .lower_part
+            .lower_part.position-relative
+                .logout_add_account.position-absolute.invisible 
+                    nav.position-relative
+                        a.border-top.d-flex.align-items-center.text-dark(href="/addAccount") 
+                            span
+                                | Add an existing account
+                        a.d-flex.align-items-center.text-dark(href="/logout") 
+                            span
+                                | Logout
                 #user_info.user_info.rounded-pill.d-flex
                     .ava_info.d-flex
                         .avatar
