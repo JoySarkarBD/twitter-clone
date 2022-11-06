@@ -157,8 +157,51 @@ a {
     .center_part {
       max-width: 598px;
       width: 100%;
-      background: orange;
+      // background: orange;
+      .post_tweet_area {
+        padding: 0 10px;
+        .heading_area {
+          padding: 14px 0;
+          h4 {
+            font-size: 18px;
+          }
+          bottom {
+            background: none;
+            outline: none;
+          }
+        }
+        .create_post {
+          img {
+            height: 48px;
+            width: 48px;
+            border-radius: 50%;
+            margin: 0px 20px 0px 0px;
+          }
+          .post_area {
+            textarea {
+              outline: none;
+              resize: none;
+              font-size: 20px;
+              &::placeholder {
+                font-size: 20px;
+              }
+            }
+          }
+          .action {
+            padding: 10px 0px;
+          }
+          .createTweetBtn {
+            background-color: #8ecdf8;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 21px;
+            font-weight: 700;
+            color: white;
+          }
+        }
+      }
     }
+
     .end_part {
       max-width: 350px;
       width: 100%;
