@@ -27,7 +27,7 @@ block bodyContent
 
                 h2 Join Twitter today
 
-                form(action='/signup', method="post" enctype="multipart/form-data")
+                form.position-relative(action='/signup', method="post" enctype="multipart/form-data")
 
                     .signup-content 
 
@@ -49,21 +49,21 @@ block bodyContent
 
                     .signup-content
 
-                        div 
+                        div.position-relative 
                             label(for="userName") User Name
 
                             input#userName(type="text", name="userName" class="form-control" value= user ? user.userName : '' required="")
 
                             if error.userName 
-                                p.error.userName-error #{error.userName.msg}                             
+                                p.error.userName-error.position-absolute #{error.userName.msg}                             
 
-                        div 
+                        div.position-relative 
                             label(for="email") Email
 
                             input#email(type="email", name="email" class="form-control" value= user ? user.email : '' required="")
 
                             if error.email 
-                                p.error.email-error #{error.email.msg}
+                                p.error.email-error.position-absolute #{error.email.msg}
 
                     .signup-content
 
@@ -89,8 +89,8 @@ block bodyContent
                             if error.confirmPassword 
                                 p.error.confirmPassword-error #{error.confirmPassword.msg}
 
-                    p#pass_errors 
-                    p#pass_matched 
+                    p#pass_errors.position-absolute 
+                    p#pass_matched.position-absolute 
 
                     label(for="avatarProfile")  Profile Avatar
 

@@ -82,9 +82,10 @@ const matchConfirmPass = () => {
     pass_errors.hidden = false;
     pass_errors.textContent = "Password doesn't match.";
   } else {
-    checkPass(passIn.value);
-    pass_errors.hidden = false;
     pass_errors.textContent = "Password match.";
+    pass_errors.hidden = false;
+    pass_errors.style.color = "green";
+    checkPass(passIn.value);
   }
 };
 
