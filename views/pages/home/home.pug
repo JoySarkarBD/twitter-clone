@@ -120,8 +120,15 @@ block bodyContent
                         img(src="/uploads/profile/" + user.avatarProfile, alt="") 
                         .inp_fld_btn.w-100.d-flex.flex-column.flex-md-column.flex-sm-column.pe-3
                             .post_area.w-100
-                                textarea(placeholder="What's happening?")#tweetContent.w-100.border-0.border-bottom.pb-5
-                                .action.d-flex.justify-content-end
+                                textarea(placeholder="What's happening?")#tweetContent.w-100.border-0.pb-2
+                                //- preview img here
+                                .img_container.border-bottom.pt-2.pb-2
+
+                                .action.d-flex.justify-content-between.align-items-center
+                                    .attach_inp 
+                                        label(for="postImage")
+                                                i.fas.fa-image 
+                                        input#postImage(type="file" multiple="") 
                                     button(disabled).createTweetBtn Tweet
 
 
@@ -129,11 +136,4 @@ block bodyContent
                 h1 End Part
 
 
-    //- .mx-auto.text-center.my-5 
-            //- h3.text-success Hello #{user.firstName} 
-    
-            //- p.text-primary user name: #{user.userName}
 
-            //- p.text-primary email: #{user.email}
-
-            //- a(href="/logout").btn.btn-primary Sign Out
