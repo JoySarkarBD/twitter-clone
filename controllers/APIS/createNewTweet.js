@@ -1,8 +1,22 @@
+const Tweet = require("../../models/Tweet");
+const User = require("../../models/User");
+
 const createNewTweet = async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.files);
+    const tweetObj = {
+      content: req.body.content,
+      images: [],
+      tweetedBy: req.id,
+    };
+    [...req.files].forEach((file) => {
+      tweetObj.images.push(file.filename);
+    });
+    const tweet = Tweet(tweetObj);
+    const result = await tweet.save();
+    await User.populate(result, { path: "tweetedBy", select: "-password" });
+    return res.json(result);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

@@ -246,6 +246,77 @@ a {
           }
         }
       }
+      .tweetContainer {
+        .tweet.border-bottom {
+          cursor: pointer;
+          &:hover {
+            background: rgb(241, 241, 241);
+          }
+          .user_avatar {
+            .img {
+              img {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+              }
+            }
+          }
+          .tweetBody {
+            max-width: 516px;
+            min-width: 236px;
+            .tweet_header {
+              .user_time {
+                a.displayName {
+                  font-size: 14px;
+                  color: black;
+                  font-weight: 600;
+                  &:hover {
+                    text-decoration: underline;
+                  }
+                }
+              }
+            }
+            .images {
+              width: 100%;
+              display: grid;
+              grid-template-columns: auto auto;
+              gap: 5px;
+              img {
+                width: 100%;
+                border-radius: 15px;
+                object-fit: cover;
+                height: 100%;
+              }
+            }
+          }
+          .tweet_footer {
+            max-width: 425px;
+            min-width: 236px;
+            height: 33px;
+            width: 100%;
+            .comment {
+              svg {
+                width: 17px;
+              }
+            }
+            .retweet {
+              svg {
+                width: 17px;
+              }
+            }
+            .like {
+              svg {
+                width: 17px;
+              }
+            }
+            .share {
+              svg {
+                width: 17px;
+              }
+            }
+          }
+        }
+      }
     }
 
     .end_part {
