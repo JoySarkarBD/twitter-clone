@@ -215,8 +215,17 @@ function createTweet(data) {
   return div;
 }
 
-/* 
-`
-
-<img class="pe-2 pb-2" src="/uploads/0d277e6ef0a26c1b95ac3b1a1f6aa7a6-1668345270831.jpg" alt=""/>
-`; */
+const loadAllTweet = async () => {
+  try {
+    const result = await fetch(`${window.location.origin}/posts`);
+    const tweets = await result.json();
+    if (!tweets.length) {
+      return (tweetContainer.innerHTML = `<h4>There are no tweets available here.</h4>`);
+    }
+    tweets.forEach((tweet) => {
+      const tweetElement = createTweet(tweet);
+      tweetContainer.insertAdjacentElement("afterbegin", tweetElement);
+    });
+  } catch (error) {}
+};
+loadAllTweet();
