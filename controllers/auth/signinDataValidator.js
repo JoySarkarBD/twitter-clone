@@ -36,6 +36,7 @@ const signInDataValidator = () => {
             req.userName = user.userName;
             req.email = user.email;
             req.password = user.password;
+            req.id = user._id;
 
             return Promise.resolve();
           } else {

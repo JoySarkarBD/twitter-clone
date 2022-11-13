@@ -28,6 +28,7 @@ const updateNewPassword = async (req, res, next) => {
           {
             userName: result.userName,
             email: result.email,
+            _id: result._id,
           },
           process.env.JWT_SECRET,
           { expiresIn: "7d" }

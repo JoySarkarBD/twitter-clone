@@ -4,7 +4,7 @@ const path = require("path");
 
 function avatarUpload(req, res, next) {
   //directory
-  const uploadDirectory = path.join(__dirname, "/../../public/uploads");
+  const uploadDirectory = path.join(__dirname, "/../../public/uploads/profile");
   // file size
   const maxFileSize = 10000000;
   // allowed file formate

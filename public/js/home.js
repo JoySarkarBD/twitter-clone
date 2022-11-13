@@ -89,3 +89,27 @@ tweetedImgContainer.addEventListener("click", function (e) {
     return;
   }
 });
+
+// submitting the tweet by the user
+tweetBtn.addEventListener("click", function () {
+  const content = tweetContentTextArea.value;
+
+  if (tweetedImgs.length || content) {
+    const form = new FormData();
+    form.append("content", content);
+
+    tweetedImgs.forEach((file) => {
+      form.append(file.name, file);
+    });
+
+    const uri = `${window.location.origin}/posts`;
+    fetch(uri, {
+      method: "POST",
+      body: form,
+    })
+      .then((result) => result.json)
+      .then((data) => {
+        console.log(data);
+      });
+  }
+});

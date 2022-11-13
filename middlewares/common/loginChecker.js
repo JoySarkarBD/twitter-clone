@@ -9,7 +9,7 @@ const loginChecker = async (req, res, next) => {
 
       req.email = decode.email;
       req.userName = decode.userName;
-
+      req.id = decode._id;
       if (req.originalUrl === "/signin" || req.originalUrl === "/signup") {
         return res.redirect("/");
       }

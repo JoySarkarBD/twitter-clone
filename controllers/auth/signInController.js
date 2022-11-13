@@ -10,6 +10,7 @@ const signInController = async (req, res, next) => {
         {
           userName: req.body.userName,
           email: req.body.email,
+          _id: req.id,
         },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }

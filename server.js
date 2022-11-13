@@ -10,6 +10,7 @@ const {
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/authRoute");
 const homeRoute = require("./routes/home/homeRoute");
+const postRoute = require("./routes/APIS/getCreateNewTweetRoute");
 
 // App Initialization and Config
 const app = express();
@@ -29,6 +30,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(authRouter);
 
 app.use("/", homeRoute); //Home Route
+app.use("/posts", postRoute); //Post Route
 
 // Not Found Handler
 app.use(notFoundHandler);

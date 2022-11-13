@@ -26,10 +26,11 @@ a {
   max-width: 1255px;
   width: 100%;
   margin: auto;
-  height: 100vh;
   .left_part {
+    position: static;
     max-width: 275px;
     width: 100%;
+    height: 100vh;
     .upper_part {
       height: 548px;
       background: white;
