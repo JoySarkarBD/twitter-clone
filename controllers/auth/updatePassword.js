@@ -30,7 +30,7 @@ const updateNewPassword = async (req, res, next) => {
             email: result.email,
           },
           process.env.JWT_SECRET,
-          { expiresIn: "24h" }
+          { expiresIn: "7d" }
         );
 
         res.status(200);

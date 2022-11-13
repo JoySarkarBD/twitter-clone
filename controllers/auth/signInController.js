@@ -3,7 +3,7 @@ const createHttpError = require("http-errors");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const signinController = async (req, res, next) => {
+const signInController = async (req, res, next) => {
   try {
     if (req.validUser) {
       const token = await jwt.sign(
@@ -12,7 +12,7 @@ const signinController = async (req, res, next) => {
           email: req.body.email,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "24h" }
+        { expiresIn: "7d" }
       );
 
       res.status(200);
@@ -28,4 +28,4 @@ const signinController = async (req, res, next) => {
 };
 
 // Module Export
-module.exports = signinController;
+module.exports = signInController;

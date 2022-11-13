@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const createHttpError = require("http-errors");
 const User = require("../../models/User");
 
-const signinDataValidator = () => {
+const signInDataValidator = () => {
   return [
     // User name or email
     check("userName")
@@ -74,4 +74,4 @@ const signinDataValidator = () => {
 };
 
 // Module Export
-module.exports = signinDataValidator;
+module.exports = signInDataValidator;

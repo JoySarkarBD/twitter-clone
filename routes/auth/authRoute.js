@@ -8,10 +8,10 @@ const signupValidator = require("../../middlewares/auth/signupValidator");
 const signupDataValidationResult = require("../../middlewares/auth/signupDataValidationResult");
 const getSignIn = require("../../controllers/auth/getSignIn");
 const getSignUp = require("../../controllers/auth/getSignUp");
-const emailConfirmation = require("../../controllers/auth/emailconfirmation");
-const signinDataValidator = require("../../controllers/auth/signinDataValidator");
-const signInValidationResult = require("../../controllers/auth/signinValidationResult");
-const signinController = require("../../controllers/auth/signInController");
+const emailConfirmation = require("../../controllers/auth/emailConfirmation");
+const signInDataValidator = require("../../controllers/auth/signInDataValidator");
+const signInValidationResult = require("../../controllers/auth/signInValidationResult");
+const signInController = require("../../controllers/auth/signInController");
 const loginChecker = require("../../middlewares/common/loginChecker");
 const logout = require("../../controllers/auth/logoutController");
 const getResetPasswordPage = require("../../controllers/auth/getResetPasswordPage");
@@ -57,9 +57,9 @@ router.post(
 router.post(
   "/signin",
   htmlResponse(`SignIn - ${process.env.APP_NAME}`),
-  signinDataValidator(),
+  signInDataValidator(),
   signInValidationResult,
-  signinController
+  signInController
 );
 
 // Email Confirmation

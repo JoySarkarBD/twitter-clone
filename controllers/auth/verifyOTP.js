@@ -1,5 +1,4 @@
 const createHttpError = require("http-errors");
-const jwt = require("jsonwebtoken");
 const OTP = require("../../models/OTP");
 
 const verifyOTP = async (req, res, next) => {

@@ -34,7 +34,7 @@ const signupController = async (req, res, next) => {
         [user.email],
         {
           subject: "Verify Your Account",
-          template: `Verification link:${process.env.APP_URL}/emailconfirmation/${user.id}`,
+          template: `Verification link:${process.env.APP_URL}/emailConfirmation/${user.id}`,
           attachments: [],
         },
         (err, info) => {
