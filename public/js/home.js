@@ -215,6 +215,7 @@ function createTweet(data) {
   return div;
 }
 
+// load all tweets
 const loadAllTweet = async () => {
   try {
     const result = await fetch(`${window.location.origin}/posts`);

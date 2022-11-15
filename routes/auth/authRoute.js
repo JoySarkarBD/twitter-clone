@@ -47,10 +47,10 @@ router.get(
 router.post(
   "/signup",
   htmlResponse(`Signup - ${process.env.APP_NAME}`),
+  avatarUpload,
   signupValidator(),
   signupDataValidationResult,
-  signupController,
-  avatarUpload
+  signupController
 );
 
 // Post Sign In Page Controller

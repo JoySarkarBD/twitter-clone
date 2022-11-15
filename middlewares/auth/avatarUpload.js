@@ -27,7 +27,7 @@ function avatarUpload(req, res, next) {
             msg: err?.message,
           },
         };
-
+        req.error = error;
         res.render("pages/signup", {
           user,
           error,
