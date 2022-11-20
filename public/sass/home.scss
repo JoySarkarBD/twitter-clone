@@ -27,13 +27,15 @@ a {
   width: 100%;
   margin: auto;
   .left_part {
-    position: static;
+    position: fixed;
     max-width: 275px;
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    background: #fff;
+    padding: 0px 11px;
     .upper_part {
       height: 548px;
-      background: white;
       .logo {
         width: 47px;
         height: 47px;
@@ -100,11 +102,12 @@ a {
     }
     .lower_part {
       .logout_add_account {
-        width: 300px;
+        width: 260px;
         top: -135px;
-        background-color: white;
+        background-color: #fff;
         border-radius: 10px;
         box-shadow: 0px 0px 4px 0px #494848;
+        transition: all 0.2s;
         // visibility: hidden;
         transition: all 0.2s;
         nav {
@@ -154,10 +157,12 @@ a {
   }
   .main-content {
     max-width: 990px;
+    margin-left: 276px;
     width: 100%;
     .center_part {
       max-width: 598px;
       width: 100%;
+      overflow-x: hidden;
       // background: orange;
       .post_tweet_area {
         padding: 0 10px;
@@ -296,22 +301,91 @@ a {
             width: 100%;
             .comment {
               svg {
-                width: 17px;
+                width: 27px;
+                transition: 0.2s;
+                border-radius: 50%;
+                padding: 5px 5px;
+              }
+              span {
+                transition: 0.2s;
+              }
+              &:hover {
+                svg {
+                  background: #e1eef6;
+                  fill: #1d9bf0;
+                }
+                span {
+                  color: #1d9bf0;
+                }
               }
             }
             .retweet {
               svg {
-                width: 17px;
+                width: 27px;
+                transition: 0.2s;
+                border-radius: 50%;
+                padding: 5px 5px;
+              }
+              span {
+                transition: 0.2s;
+              }
+              &:hover {
+                svg {
+                  background: #def1eb;
+                  fill: #00ba7c;
+                }
+                span {
+                  color: #00ba7c;
+                }
               }
             }
             .like {
               svg {
-                width: 17px;
+                width: 27px;
+                transition: 0.2s;
+                border-radius: 50%;
+                padding: 5px 5px;
+                pointer-events: none;
+              }
+              .active {
+                fill: #f91880;
+                background: #f7e0eb;
+              }
+              .like_count {
+                color: #f91880;
+              }
+              span {
+                transition: 0.2s;
+                pointer-events: none;
+              }
+              &:hover {
+                svg {
+                  background: #f7e0eb;
+                  fill: #f91880;
+                }
+                span {
+                  color: #f91880;
+                }
               }
             }
             .share {
               svg {
-                width: 17px;
+                width: 27px;
+                transition: 0.2s;
+                border-radius: 50%;
+                padding: 5px 5px;
+              }
+              span {
+                transition: 0.2s;
+              }
+              &:hover {
+                svg {
+                  background: #e1eef6;
+                  fill: #54b2f2;
+                }
+                span {
+                  color: #54b2f2;
+                }
               }
             }
           }

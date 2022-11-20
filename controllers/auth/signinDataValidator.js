@@ -3,6 +3,7 @@ const { check } = require("express-validator");
 const bcrypt = require("bcrypt");
 const createHttpError = require("http-errors");
 const User = require("../../models/User");
+const { updateCacheData } = require("../../utilities/cachedManagement");
 
 const signInDataValidator = () => {
   return [
@@ -14,30 +15,22 @@ const signInDataValidator = () => {
       .toLowerCase()
       .custom(async (value, { req }) => {
         try {
-          const user = await User.findOne(
-            {
-              $or: [
-                {
-                  userName: value,
-                },
-                {
-                  email: value,
-                },
-              ],
-            },
-            {
-              userName: 1,
-              email: 1,
-              password: 1,
-            }
-          );
-
+          const user = await User.findOne({
+            $or: [
+              {
+                userName: value,
+              },
+              {
+                email: value,
+              },
+            ],
+          });
           if (user) {
             req.userName = user.userName;
             req.email = user.email;
             req.password = user.password;
             req.id = user._id;
-
+            updateCacheData(`user:${user._id}`, user);
             return Promise.resolve();
           } else {
             return Promise.reject();

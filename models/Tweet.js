@@ -1,5 +1,5 @@
 // Dependencies
-const { Schema, model, default: mongoose } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const tweetSchema = new Schema(
   {
@@ -10,10 +10,16 @@ const tweetSchema = new Schema(
     },
     images: [{ type: String }],
     tweetedBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,

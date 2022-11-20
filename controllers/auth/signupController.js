@@ -27,6 +27,8 @@ const signupController = async (req, res, next) => {
       email,
       password,
       avatarProfile,
+      status: "unverified",
+      tweetsYouLike: [],
     });
     const user = await userObj.save();
     if (user.id) {
