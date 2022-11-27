@@ -1,6 +1,7 @@
 const createNewTweet = require("../../controllers/APIS/createNewTweet.js");
 const getAllPost = require("../../controllers/APIS/getAllPost.js");
 const likeHandler = require("../../controllers/APIS/likeHandler.js");
+const replyHandler = require("../../controllers/APIS/replyHandler.js");
 const retweetHandler = require("../../controllers/APIS/retweetHandler.js");
 const uploadTweetedImg = require("../../middlewares/APIS/uploadTweetedImg.js");
 const loginChecker = require("../../middlewares/common/loginChecker.js");
@@ -19,5 +20,8 @@ postRoute.put("/like/:id", loginChecker, likeHandler);
 
 // put like on tweet
 postRoute.post("/retweet/:id", loginChecker, retweetHandler);
+
+// reply on tweet
+postRoute.post("/reply/:id", loginChecker, uploadTweetedImg, replyHandler);
 
 module.exports = postRoute;

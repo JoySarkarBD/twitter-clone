@@ -588,6 +588,13 @@ div#replyModal {
               height: 33px;
               width: 100%;
               .comment {
+                .activeComment {
+                  background: #e1eef6;
+                  fill: #1d9bf0;
+                }
+                .replyCount {
+                  color: #1d9bf0;
+                }
                 svg {
                   width: 27px;
                   transition: 0.2s;

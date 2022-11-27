@@ -33,6 +33,16 @@ const tweetSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Tweet",
     },
+    replyTo: {
+      type: Schema.Types.ObjectId,
+      ref: "Tweet",
+    },
+    repliedPost: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tweet",
+      },
+    ],
   },
   {
     timestamps: true,

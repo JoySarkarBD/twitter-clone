@@ -14,16 +14,12 @@ const replyImgContainer = document.querySelector(".replyImgContainer");
 const replyImgInp = document.querySelector("input#replyImgInp");
 const replyBtn = document.querySelector("button.replyBtn");
 
-function clearReplyData() {
-  console.log("hello");
-}
-
 // logout modal
 user_info.addEventListener("click", function () {
-  if (logout_add_account[0].classList[2] === "invisible") {
-    logout_add_account[0].classList.remove("invisible");
+  if (logout_add_account.classList[2] === "invisible") {
+    logout_add_account.classList.remove("invisible");
   } else {
-    logout_add_account[0].classList.add("invisible");
+    logout_add_account.classList.add("invisible");
   }
 });
 
@@ -90,7 +86,6 @@ let replyImgs = [];
 
 replyImgInp.addEventListener("change", function (e) {
   const imgFile = this.files;
-  console.log("replyImg");
   [...imgFile].forEach((file) => {
     if (
       ["image/jpg", "image/jpeg", "image/png", "image/svg+xml"].includes(
@@ -110,15 +105,37 @@ replyImgInp.addEventListener("change", function (e) {
                              </span><img>`;
         const img = htmlEle.querySelector("img");
         img.src = fr.result;
-        // replyImgContainer.appendChild(htmlEle);
-        console.dir(replyImgContainer);
-        console.log(replyImgContainer);
+        replyImgContainer.appendChild(htmlEle);
       };
       fr.readAsDataURL(file);
     } else {
       return;
     }
   });
+});
+
+// remove img from tweet reply image container
+replyImgContainer.addEventListener("click", function (e) {
+  const cross_btn = e.target.id === "cross_btn" ? e.target : null;
+
+  if (cross_btn) {
+    const imgEle = cross_btn.parentElement;
+    const fileName = imgEle.dataset.name;
+
+    replyImgs.forEach((img, i) => {
+      if (fileName === img.name) {
+        replyImgs.splice(i, 1);
+        imgEle.remove();
+
+        if (!replyImgs.length && !replyContentTextArea.value.trim()) {
+          replyBtn.setAttribute("disabled", true);
+          replyBtn.style.backgroundColor = "#8ecdf8";
+        }
+      }
+    });
+  } else {
+    return;
+  }
 });
 
 // remove img from tweeted image container
@@ -179,6 +196,7 @@ tweetBtn.addEventListener("click", function () {
 function createTweet(data) {
   // console.log(data);
   let reTweetHtmlWithData = "";
+  let replyTo = "";
   if (data.tweetData) {
     data = data.tweetData;
     reTweetHtmlWithData = `
@@ -203,7 +221,12 @@ function createTweet(data) {
       </p>
     </div>`;
   }
-
+  if (data.replyTo?.tweetedBy?.userName) {
+    replyTo = `<div class="replyFlag">
+    <p>Replying to @<a href="profile/${data.replyTo.tweetedBy.userName}">${data.replyTo.tweetedBy.userName}</a></p>
+    </div>
+    `;
+  }
   const {
     _id: postID,
     content,
@@ -211,6 +234,7 @@ function createTweet(data) {
     tweetedBy: { _id, userName, firstName, lastName, avatarProfile },
     createdAt,
     likes,
+    repliedPost,
   } = data;
 
   function timeSince(date) {
@@ -261,7 +285,8 @@ function createTweet(data) {
   } </a><span class="pe-2 userName"> @${userName}</span>
       <div class="time pe-2">. ${time}</div>
     </div>
-  </div>
+    </div>
+    ${replyTo}
   <div class="tweet_content w-100">
       <p class="pe-2 pb-2">${content}</p>
   </div>
@@ -273,14 +298,20 @@ function createTweet(data) {
 <!--Comment btn-->
 <div data-post='${JSON.stringify(
     data
-  )}' onclick="replyHandler(event, '${postID}')" data-toggle="modal" data-target="#replyModal" data-toggle="tooltip", data-placement="bottom", title="Reply" class="comment"><svg viewbox="0 0 24 24" aria-hidden="true">
+  )}' onclick="replyHandler(event, '${postID}')" data-toggle="modal" data-target="#replyModal" data-toggle="tooltip", data-placement="bottom", title="Reply" class="comment">
+  <svg class="${
+    repliedPost.length ? "activeComment" : ""
+  }" viewbox="0 0 24 24" aria-hidden="true">
     <g></g>
     <path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path>
-    </svg><span class="ps-2 pe-2">10</span>
+    </svg>
+    <span class="replyCount ps-2 pe-2">${
+      repliedPost.length ? repliedPost.length : ""
+    }</span>
 </div>
 
 <!--Retweet btn-->
-<div class="retweet">
+<div class="retweet" onclick="retweetHandler(event,'${postID}')">
   <svg class="${
     user.yourRetweets.includes(postID) ? "active_retweet" : ""
   }" viewbox="0 0 24 24" aria-hidden="true">
@@ -379,7 +410,6 @@ const retweetHandler = (event, postID) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data);
       if (data.retweetedUsers.includes(user._id)) {
         svg.classList.add("active_retweet");
         span.classList.add("retweet_count");
@@ -397,7 +427,6 @@ const retweetHandler = (event, postID) => {
 function replyHandler(event, postID) {
   const replyButton = event.target.parentElement;
   const postObj = JSON.parse(replyButton.dataset.post);
-  console.log(postObj);
   const modal = document.querySelector("#replyModal");
   const modalBody = modal.querySelector(".modal-body");
   modalBody.innerHTML = "";
@@ -405,22 +434,33 @@ function replyHandler(event, postID) {
   const tweetElement = createTweet(postObj);
   modalBody.appendChild(tweetElement);
 
-  // $("#replyModal").modal("toggle");
-  // console.log(postID);
-  // console.log(postObj);
+  replyBtn.addEventListener("click", function () {
+    const replyContent = replyContentTextArea.value;
+    if (replyImgs.length || replyContent) {
+      const form = new FormData();
+      form.append("replyContent", replyContent);
 
-  // const url = `${window.location.origin}/posts/reply/${postId}`
+      replyImgs.forEach((file) => {
+        form.append(file.name, file);
+      });
+      const uri = `${window.location.origin}/posts/reply/${postID}`;
+      fetch(uri, {
+        method: "POST",
+        body: form,
+      })
+        .then((result) => result.json())
+        .then((data) => {
+          if (data._id) {
+            window.location.reload();
+          }
+        });
+    }
+  });
+}
 
-  // fetch(url, {
-  //     method: "POST",
-  // }).then(res => res.json())
-  //     .then(data => {
-
-  //         if (data?.replyUsers?.includes(user._id)) {
-  //             replyBtn.classList.add('active');
-  //         } else {
-  //             replyBtn.classList.remove('active');
-  //         };
-  //         span.innerText = data.replyUsers.length ? data.replyUsers.length : "";
-  //     })
+function clearReplyData() {
+  replyContentTextArea.innerHTML = "";
+  replyImgContainer.value = "";
+  replyBtn.setAttribute("disable", "");
+  replyBtn.style.background = "#8ecaf3";
 }
