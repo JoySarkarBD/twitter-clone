@@ -19,7 +19,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      minLength: 5,
+      minLength: 3,
       unique: true,
     },
     email: {
@@ -44,19 +44,29 @@ const userSchema = new Schema(
         },
       },
     },
+    // user profile picture
     avatarProfile: {
       type: String,
       required: true,
     },
+    // user status
     status: {
       type: String,
       enum: ["unverified", "verified", "suspended"],
       default: "unverified",
     },
+    // tweets id which are liked by this user
     tweetsYouLike: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Tweet",
+      },
+    ],
+    //  tweets id which are retweeted by this user
+    yourRetweets: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tweet",
       },
     ],
   },

@@ -17,6 +17,31 @@ block jsScript
 
 
 block bodyContent
+    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replyModalTitle', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.btn-close(type='button', data-dismiss='modal', aria-label='Close' onclick="clearReplyData()")
+                        span(aria-hidden="true") &times
+                .modal-body
+                
+                .modal-footer.d-block
+                    .create_post.d-flex
+                        img(src="/uploads/profile/" + user.avatarProfile, alt="")
+                        .inp_fld_btn.w-100.d-flex.flex-column.flex-md-column.flex-sm-column.pe-3
+                            .post_area.w-100
+                                textarea(placeholder="Tweet your reply")#replyContentTextArea.w-100.border-0.pb-2
+                                //- preview img here
+                                .replyImgContainer.border-bottom.pt-2.pb-2
+
+                                .action.d-flex.justify-content-between.align-items-center
+                                    .attach_inp 
+                                        label(for="postImage")
+                                                i.fas.fa-image 
+                                        input#replyImgInp(type="file" multiple="") 
+                                    button.replyBtn(disabled) Reply
+
+
     #main.main.d-flex.justify-content-between
     
         .left_part.d-flex.justify-content-between.flex-column.flex-md-column.flex-sm-column
@@ -133,8 +158,8 @@ block bodyContent
 
                 .tweetContainer  
 
-            .end_part       
-                h1 End Part
+            //- .end_part       
+            //-     h1 End Part
 
     script. 
         const user = !{userFrontEndData}

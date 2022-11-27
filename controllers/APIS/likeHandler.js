@@ -8,7 +8,7 @@ const {
 const likeHandler = async (req, res, next) => {
   try {
     const postID = req.params.id;
-    const usrID = req.id;
+    const userID = req.id;
 
     //update tweet like
     const user = await getAndSetCachedData(`user:${req.id}`, async () => {
@@ -21,7 +21,7 @@ const likeHandler = async (req, res, next) => {
 
     const tweet = await Tweet.findByIdAndUpdate(
       { _id: postID },
-      { [putAndPullLikes]: { likes: usrID } },
+      { [putAndPullLikes]: { likes: userID } },
       {
         new: true,
       }
@@ -32,13 +32,13 @@ const likeHandler = async (req, res, next) => {
 
     //update user like
     const modifiedUserData = await User.findOneAndUpdate(
-      { _id: usrID },
+      { _id: userID },
       { [putAndPullLikes]: { tweetsYouLike: postID } },
       { new: true }
     );
 
     // update data to cache
-    updateCacheData(`user:${usrID}`, modifiedUserData);
+    updateCacheData(`user:${userID}`, modifiedUserData);
 
     res.json(tweet);
   } catch (error) {
