@@ -5,7 +5,6 @@ const User = require("../../models/User");
 const Tweet = require("../../models/Tweet");
 const {
   updateCacheData,
-  getAndSetCachedData,
   deleteCache,
 } = require("../../utilities/cachedManagement");
 const populator = require("../../utilities/populator");
@@ -26,7 +25,6 @@ const deleteTweet = async (req, res, next) => {
     } else {
       next(createHttpError(404, "Bad Request"));
     }
-    // console.log(deletedTweet);
 
     // delete replied post
     if (deletedTweet?.replyTo) {
@@ -76,7 +74,18 @@ const deleteTweet = async (req, res, next) => {
       });
     }
 
-    // /* delete main tweets all retweeted tweets */(eta bujhi nai)
+    // delete retweetedUsers of main tweet from tweet model
+    if (deletedTweet?.tweetData) {
+      const retweetUser = await Tweet.findByIdAndUpdate(
+        { _id: deletedTweet.tweetData },
+        { $pull: { retweetedUsers: deletedTweet.tweetedBy } },
+        { new: true }
+      );
+      // console.log(retweetUser);
+      await updateCacheData(`tweet:${retweetUser._id}`, retweetUser);
+    }
+
+    // delete main tweets all retweeted tweets
     if (deletedTweet?.retweetedUsers?.length) {
       deletedTweet?.retweetedUsers.forEach(async (userID) => {
         const deleteRetweetedTweets = await Tweet.findByIdAndDelete(

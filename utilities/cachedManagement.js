@@ -1,15 +1,17 @@
-const redis = require("redis").createClient();
+const Redis = require("redis");
+const redisClient = Redis.createClient(`http://127.0.0.1:6379`);
+
 const cacheExpirationTime = 604800; // one week
 
 // get and set cache data
 const getAndSetCachedData = async (key, callback) => {
   try {
-    const data = await redis.get(key);
+    const data = await redisClient.get(key);
     if (data) {
       return JSON.parse(data);
     } else {
       const newData = await callback();
-      redis.setEx(key, cacheExpirationTime, JSON.stringify(newData));
+      redisClient.setEx(key, cacheExpirationTime, JSON.stringify(newData));
     }
   } catch (error) {
     throw error;
@@ -18,7 +20,7 @@ const getAndSetCachedData = async (key, callback) => {
 
 const updateCacheData = async (key, value) => {
   try {
-    redis.setEx(key, cacheExpirationTime, JSON.stringify(value));
+    redisClient.setEx(key, cacheExpirationTime, JSON.stringify(value));
   } catch (error) {
     throw error;
   }
@@ -33,7 +35,7 @@ const deleteCache = async (key) => {
 };
 
 module.exports = {
-  redis,
+  redisClient,
   updateCacheData,
   getAndSetCachedData,
   deleteCache,

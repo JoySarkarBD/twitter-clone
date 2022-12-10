@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/authRoute");
 const homeRoute = require("./routes/home/homeRoute");
 const postRoute = require("./routes/APIS/getCreateNewTweetRoute");
-const { redis } = require("./utilities/cachedManagement");
+const { redisClient } = require("./utilities/cachedManagement");
 
 // App Initialization and Config
 const app = express();
@@ -42,7 +42,7 @@ app.use(errorHandler);
 // Mongodb Connection
 async function twitter() {
   try {
-    await redis.connect();
+    await redisClient.connect();
     await mongoose.connect(process.env.DB_URI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
