@@ -1,6 +1,5 @@
 // Dependencies
 const createHttpError = require("http-errors");
-const { deleteOne } = require("../../models/Tweet");
 const User = require("../../models/User");
 const { getAndSetCachedData } = require("../../utilities/cachedManagement");
 

@@ -4,9 +4,9 @@ const getElement = (selector) => {
 };
 
 // dom reference
-const passIn = getElement("#password");
+const passInp = getElement("#password");
 const passEyeIcon = getElement("#passEyeIcon");
-const confirmPassIn = getElement("#confirmPassword");
+const confirmPassInp = getElement("#confirmPassword");
 const confirmPassEyeIcon = getElement("#confirmPassEyeIcon");
 const pass_errors = getElement("#pass_errors");
 const pass_matched = getElement("#pass_matched");
@@ -16,7 +16,6 @@ pass_errors.hidden = true;
 pass_matched.hidden = true;
 
 // pass show and hide function
-
 const showAndHidePass = (icon, field) => {
   icon.addEventListener("click", function (e) {
     const i = icon.querySelector("i");
@@ -31,9 +30,9 @@ const showAndHidePass = (icon, field) => {
 };
 
 // pass show and hide
-showAndHidePass(passEyeIcon, passIn);
+showAndHidePass(passEyeIcon, passInp);
 // confirm pass show and hide
-showAndHidePass(confirmPassEyeIcon, confirmPassIn);
+showAndHidePass(confirmPassEyeIcon, confirmPassInp);
 
 // pass validator alert function
 
@@ -78,14 +77,14 @@ const checkPass = (pass) => {
 
 // match confirm password
 const matchConfirmPass = () => {
-  if (passIn.value !== confirmPassIn.value) {
+  if (passInp.value !== confirmPassInp.value) {
     pass_errors.hidden = false;
     pass_errors.textContent = "Password doesn't match.";
   } else {
     pass_errors.textContent = "Password match.";
     pass_errors.hidden = false;
     pass_errors.style.color = "green";
-    checkPass(passIn.value);
+    checkPass(passInp.value);
   }
 };
 
@@ -93,25 +92,25 @@ const matchConfirmPass = () => {
 let typingTimer;
 const typingInterval = 500;
 
-passIn.addEventListener("keyup", function () {
+passInp.addEventListener("keyup", function () {
   clearTimeout(typingTimer);
 
   pass_errors.hidden = true;
-  if (passIn.value) {
-    typingTimer = setTimeout(() => checkPass(passIn.value), typingInterval);
+  if (passInp.value) {
+    typingTimer = setTimeout(() => checkPass(passInp.value), typingInterval);
   }
 });
 
 // keypress event on password input field
-passIn.addEventListener("keydown", function () {
+passInp.addEventListener("keydown", function () {
   clearTimeout(typingTimer);
 });
 
-confirmPassIn.addEventListener("keyup", function () {
+confirmPassInp.addEventListener("keyup", function () {
   clearTimeout(typingTimer);
   pass_errors.hidden = true;
 
-  if (confirmPassIn.value) {
+  if (confirmPassInp.value) {
     typingTimer = setTimeout(() => checkPass(), typingInterval);
   } else {
     return;
@@ -119,6 +118,6 @@ confirmPassIn.addEventListener("keyup", function () {
 });
 
 // keydown event on confirm password input field
-confirmPassIn.addEventListener("keydown", function () {
+confirmPassInp.addEventListener("keydown", function () {
   clearTimeout(typingTimer);
 });

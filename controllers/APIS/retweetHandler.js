@@ -4,6 +4,7 @@ const {
   getAndSetCachedData,
   updateCacheData,
 } = require("../../utilities/cachedManagement");
+const populator = require("../../utilities/populator");
 
 const retweetHandler = async (req, res, next) => {
   try {
@@ -18,16 +19,16 @@ const retweetHandler = async (req, res, next) => {
     let retweetObj = removeRetweet;
 
     // creating new tweet as retweet in db
-    if (!retweetObj) {
+    if (retweetObj === null) {
       const tweet = Tweet({
         tweetedBy: userID,
         tweetData: postID,
       });
       retweetObj = tweet.save();
-      updateCacheData(`retweet:${retweetObj._id}`, retweetObj);
+      await updateCacheData(`tweet:${retweetObj._id}`, retweetObj);
     }
 
-    const addAndRemoveRetweet = removeRetweet ? "$pull" : "$addToSet";
+    const addAndRemoveRetweet = removeRetweet !== null ? "$pull" : "$addToSet";
 
     // updating retweet users in db for this tweet
     const tweet = await Tweet.findByIdAndUpdate(
@@ -39,7 +40,8 @@ const retweetHandler = async (req, res, next) => {
     );
 
     // update tweets to cache
-    updateCacheData(`tweets:${tweet._id}`, tweet);
+    await populator(tweet);
+    await updateCacheData(`tweet:${tweet._id}`, tweet);
 
     // update user retweet field in db
     const modifiedUserData = await User.findOneAndUpdate(
@@ -49,7 +51,7 @@ const retweetHandler = async (req, res, next) => {
     );
 
     // update user data to cache
-    updateCacheData(`user:${userID}`, modifiedUserData);
+    await updateCacheData(`user:${userID}`, modifiedUserData);
 
     res.json(tweet);
   } catch (error) {

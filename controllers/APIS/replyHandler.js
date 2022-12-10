@@ -1,13 +1,12 @@
 const Tweet = require("../../models/Tweet");
+const { updateCacheData } = require("../../utilities/cachedManagement");
+const populator = require("../../utilities/populator");
 
 const replyHandler = async (req, res, next) => {
-  const postID = req.params.postID;
-  //   এখানে আমার post id টা পাচ্ছে না। এটা নিয়ে কাল কাজ করবো।
-  return console.log(postID);
+  const postID = req.params.id;
   const userID = req.id;
   const files = req.files;
   const replyContent = req.body.replyContent;
-
   const tweetData = {
     content: replyContent,
     images: [],
@@ -19,15 +18,20 @@ const replyHandler = async (req, res, next) => {
     repliedPost: [],
   };
   files.forEach((file) => {
-    tweetData.images.push(file);
+    tweetData.images.push(file.filename);
   });
+  const tweetObj = new Tweet(tweetData);
+  await tweetObj.save();
 
-  const tweetObj = await Tweet(tweetData).save();
-  await Tweet.findOneAndUpdate(postID, {
+  const replyToTweet = await Tweet.findOneAndUpdate(postID, {
     $addToSet: {
       repliedPost: tweetObj._id,
     },
   });
+  await populator(tweetObj);
+  await populator(replyToTweet);
+  await updateCacheData(`tweet:${tweetObj._id}`, tweetObj);
+  await updateCacheData(`tweet:${replyToTweet._id}`, replyToTweet);
   return res.json(tweetObj);
 };
 

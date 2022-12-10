@@ -21,7 +21,6 @@ const uploadTweetedImg = (req, res, next) => {
       max_file_size,
       allowed_file_mime_type
     ).any();
-
     uploader(req, res, (err) => {
       if (err) {
         next(err);

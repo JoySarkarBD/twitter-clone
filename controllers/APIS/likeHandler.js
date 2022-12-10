@@ -5,6 +5,8 @@ const {
   updateCacheData,
 } = require("../../utilities/cachedManagement");
 
+const populator = require("../../utilities/populator");
+
 const likeHandler = async (req, res, next) => {
   try {
     const postID = req.params.id;
@@ -28,7 +30,7 @@ const likeHandler = async (req, res, next) => {
     );
 
     // update data to cache
-    updateCacheData(`tweets:${postID}`, tweet);
+    await updateCacheData(`tweet:${postID}`, tweet);
 
     //update user like
     const modifiedUserData = await User.findOneAndUpdate(
@@ -38,7 +40,9 @@ const likeHandler = async (req, res, next) => {
     );
 
     // update data to cache
-    updateCacheData(`user:${userID}`, modifiedUserData);
+    await populator(modifiedUserData);
+
+    await updateCacheData(`user:${userID}`, modifiedUserData);
 
     res.json(tweet);
   } catch (error) {
