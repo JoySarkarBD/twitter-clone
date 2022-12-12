@@ -1,0 +1,143 @@
+.profile_header_container {
+  width: 100%;
+  height: 200px;
+  position: relative;
+
+  .cover_image {
+    background-color: #1d9bf0;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 200px;
+    }
+  }
+
+  .profile_avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: absolute;
+    top: 126px;
+    left: 10px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.profile_actions {
+  a {
+    svg {
+      fill: black;
+    }
+  }
+  display: flex;
+  justify-content: flex-end;
+
+  button.edit_profile {
+    margin-top: 15px;
+    width: 120px;
+    height: 40px;
+    border-radius: 25px;
+    background: transparent;
+    color: black;
+    margin-right: 10px;
+    &:hover {
+      background-color: #e7e7e8;
+    }
+  }
+
+  button.follow_btn {
+    margin-top: 15px;
+    width: 120px;
+    height: 40px;
+    border-radius: 25px;
+    background: transparent;
+    color: black;
+    margin-right: 10px;
+    &:hover {
+      background-color: #e7e7e8;
+    }
+  }
+}
+
+.profile_details {
+  padding-top: 25px;
+
+  h4.pro_fullName {
+    color: black;
+    margin-left: 10px;
+  }
+
+  h6.pro_userName {
+    color: #565a5e;
+    margin-left: 10px;
+  }
+}
+
+.social_influences {
+  margin-top: 20px;
+  margin-left: 10px;
+
+  a.following {
+    color: #565a5e;
+    margin-right: 25px;
+    text-decoration: none;
+
+    span {
+      color: black;
+      font-weight: 700;
+    }
+  }
+
+  a.followers {
+    color: #565a5e;
+    margin-right: 25px;
+    text-decoration: none;
+    span {
+      color: black;
+      font-weight: 700;
+    }
+  }
+}
+
+.tabs_container {
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+
+  a.tweets_tab {
+    &:hover {
+      background: #e7e7e8;
+    }
+
+    button {
+      background: transparent;
+      color: black;
+      transition: 0.5s;
+      height: 35px;
+      border: none;
+    }
+  }
+
+  a.replies_tab {
+    &:hover {
+      background: #e7e7e8;
+    }
+    button {
+      background: transparent;
+      color: black;
+      transition: 0.5s;
+      height: 35px;
+      border: none;
+    }
+  }
+}
+
+.active_tabs {
+  border-bottom: 3px solid #1d9bf0;
+}

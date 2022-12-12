@@ -12,6 +12,7 @@ const authRouter = require("./routes/auth/authRoute");
 const homeRoute = require("./routes/home/homeRoute");
 const postRoute = require("./routes/APIS/getCreateNewTweetRoute");
 const { redisClient } = require("./utilities/cachedManagement");
+const profileRoute = require("./routes/profile/profileRoute");
 
 // App Initialization and Config
 const app = express();
@@ -30,8 +31,9 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // Routes
 app.use(authRouter);
 
-app.use("/", homeRoute); //Home Route
 app.use("/posts", postRoute); //Post Route
+app.use("/profile", profileRoute); //Profile Route
+app.use("/", homeRoute); //Home Route
 
 // Not Found Handler
 app.use(notFoundHandler);
