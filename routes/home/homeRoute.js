@@ -1,18 +1,19 @@
-// Dependencies
-const homeRoute = require("express").Router();
-const getHomePage = require("../../controllers/home/getHomePage");
-const htmlResponse = require("../../middlewares/common/htmlResponse");
+/* dependencies */
+const homeController = require("../../controllers/home/getHome");
+const htmlResponse = require("../../middlewares/common/html");
 const loginChecker = require("../../middlewares/common/loginChecker");
-// const signInChecker = require('../../middlewares/common/signinChecker');
 require("dotenv").config();
 
-// Get Home Page
-homeRoute.get(
+//create router
+const homeRouter = require("express").Router();
+
+//get home route
+homeRouter.get(
   "/",
-  htmlResponse(`Home Page - ${process.env.APP_NAME}`),
+  htmlResponse(`Home ${process.env.APP_NAME}`),
   loginChecker,
-  getHomePage
+  homeController
 );
 
-// Module Export
-module.exports = homeRoute;
+/* export homeRoute */
+module.exports = homeRouter;

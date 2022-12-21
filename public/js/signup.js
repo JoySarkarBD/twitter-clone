@@ -1,24 +1,96 @@
-// get elements
-const getElement = (selector) => {
-  return document.querySelector(selector);
-};
+/*TODO: username check functionality =======================================*/
+let typeTimer;
+const username = document.querySelector("#username");
+const usermsg = document.querySelector("#userMsg");
+usermsg.hidden = true;
 
-// dom reference
-const passInp = getElement("#password");
-const passEyeIcon = getElement("#passEyeIcon");
-const confirmPassInp = getElement("#confirmPassword");
-const confirmPassEyeIcon = getElement("#confirmPassEyeIcon");
-const pass_errors = getElement("#pass_errors");
-const pass_matched = getElement("#pass_matched");
+username.addEventListener("keyup", function (e) {
+  clearTimeout(typeTimer);
 
-// pass validator alert message
-pass_errors.hidden = true;
-pass_matched.hidden = true;
+  if (username.value) {
+    typeTimer = setTimeout(() => {
+      fetch(`http://localhost:3000/checkuser/${username.value}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.username) {
+            usermsg.hidden = false;
+            usermsg.textContent = `${data.username} already taken`;
+            usermsg.style.color = "red";
+          } else {
+            usermsg.hidden = false;
+            usermsg.textContent = `${username.value} is available`;
+            usermsg.style.color = "green";
+          }
+        });
+    }, 1000);
+  } else {
+    usermsg.hidden = true;
+    usermsg.textContent = "";
+  }
+});
 
-// pass show and hide function
-const showAndHidePass = (icon, field) => {
-  icon.addEventListener("click", function (e) {
-    const i = icon.querySelector("i");
+username.addEventListener("keydown", function (e) {
+  clearTimeout(typeTimer);
+});
+
+/*TODO:  email check ============================================== */
+const email = document.querySelector("#email");
+const emailMsg = document.querySelector("#emailMsg");
+emailMsg.hidden = true;
+
+//checker functionality
+email.addEventListener("keyup", function (e) {
+  clearTimeout(typeTimer);
+  if (email.value) {
+    typeTimer = setTimeout(() => {
+      const validMail =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          email.value
+        );
+      if (validMail) {
+        fetch(`http://localhost:3000/checkemail/${email.value}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.email) {
+              emailMsg.hidden = false;
+              emailMsg.textContent = `Email already exist`;
+              emailMsg.style.color = "red";
+            } else {
+              emailMsg.hidden = false;
+              emailMsg.textContent = "Email Available";
+              emailMsg.style.color = "green";
+            }
+          });
+      } else {
+        emailMsg.hidden = false;
+        emailMsg.textContent = `Invalid Email`;
+        emailMsg.style.color = "red";
+      }
+    }, 1000);
+  } else {
+    emailMsg.hidden = true;
+    emailMsg.textContent = "";
+  }
+});
+
+email.addEventListener("keydown", function (e) {
+  clearTimeout(typeTimer);
+});
+
+//TODO:password===========================================================================
+const passwordEyeIcon = document.querySelector("#passwordEyeIcon");
+const passwordField = document.querySelector("#password");
+
+//confirm password
+const confirmpasswordField = document.querySelector("#confirmpassword");
+const confirmPasswordEyeIcon = document.querySelector(
+  "#confirmPasswordEyeIcon"
+);
+
+/* password hide & open function */
+const passwordIconHandler = (handler, field) => {
+  handler.addEventListener("click", function (e) {
+    const i = this.querySelector("i");
     if (i.className === "fas fa-eye-slash") {
       i.className = "fas fa-eye";
       field.type = "text";
@@ -29,95 +101,89 @@ const showAndHidePass = (icon, field) => {
   });
 };
 
-// pass show and hide
-showAndHidePass(passEyeIcon, passInp);
-// confirm pass show and hide
-showAndHidePass(confirmPassEyeIcon, confirmPassInp);
+passwordIconHandler(passwordEyeIcon, passwordField);
+passwordIconHandler(confirmPasswordEyeIcon, confirmpasswordField);
 
-// pass validator alert function
+/* password validation section ==========================================*/
+const passError = document.querySelector("#passError");
+passError.hidden = true;
 
-const passValidator = (pass) => {
-  let message = [];
-  if (pass.length < 8) {
-    message.push("8 characters");
+/* TODO:password validation check */
+function validatePassword(p) {
+  const errors = [];
+  if (p.length < 8) {
+    errors.push("8 characters");
   }
-  if (pass.search(/[a-z]/) < 0) {
-    message.push("1 lowercase letter");
+  if (p.search(/[a-z]/) < 0) {
+    errors.push("one lower case");
   }
-  if (pass.search(/[A-Z]/) < 0) {
-    message.push("1 uppercase letter");
+  if (p.search(/[A-Z]/) < 0) {
+    errors.push("one upper case");
   }
-  if (pass.search(/[0-9]/) < 0) {
-    message.push("1 digit");
+  if (p.search(/[0-9]/) < 0) {
+    errors.push("one digit.");
   }
-  if (pass.search(/[\!\@\#\$\%\^\&\*\(\)\_\+\.\,\;\:\-]/) < 0) {
-    message.push("1 special character.");
+  if (p.search(/[!@#\$%\^&\*_]/) < 0) {
+    errors.push("One special char");
   }
+  return errors;
+}
 
-  return message;
-};
-
-// match pass function
-
-const checkPass = (pass) => {
-  let passValidationResult = pass ? passValidator(pass) : [];
-
-  if (passValidationResult.length > 0) {
-    const alertMsg = `Password must contain at least ${passValidationResult}`;
-    if (pass) {
-      pass_errors.hidden = false;
-      pass_errors.textContent = alertMsg;
+//TODO: password check
+function checkPassWord(password) {
+  const errorResult = validatePassword(password);
+  if (errorResult.length > 0) {
+    const errMsg = errorResult.join(" , ");
+    if (passError) {
+      passError.hidden = false;
+      passError.textContent = errMsg;
     } else {
       return;
     }
-  } else {
-    matchConfirmPass();
   }
-};
+}
 
-// match confirm password
-const matchConfirmPass = () => {
-  if (passInp.value !== confirmPassInp.value) {
-    pass_errors.hidden = false;
-    pass_errors.textContent = "Password doesn't match.";
+passwordField.addEventListener("keyup", function (e) {
+  clearTimeout(typeTimer);
+  passError.hidden = true;
+
+  if (passwordField.value) {
+    typeTimer = setTimeout(() => {
+      checkPassWord(passwordField.value);
+    }, 500);
   } else {
-    pass_errors.textContent = "Password match.";
-    pass_errors.hidden = false;
-    pass_errors.style.color = "green";
-    checkPass(passInp.value);
-  }
-};
-
-// keypress event on password input field
-let typingTimer;
-const typingInterval = 500;
-
-passInp.addEventListener("keyup", function () {
-  clearTimeout(typingTimer);
-
-  pass_errors.hidden = true;
-  if (passInp.value) {
-    typingTimer = setTimeout(() => checkPass(passInp.value), typingInterval);
   }
 });
 
-// keypress event on password input field
-passInp.addEventListener("keydown", function () {
-  clearTimeout(typingTimer);
+passwordField.addEventListener("keydown", function (e) {
+  clearTimeout(typeTimer);
 });
 
-confirmPassInp.addEventListener("keyup", function () {
-  clearTimeout(typingTimer);
-  pass_errors.hidden = true;
+//TODO: confirm password check
 
-  if (confirmPassInp.value) {
-    typingTimer = setTimeout(() => checkPass(), typingInterval);
+function confirmPassCheck(password) {
+  if (password) {
+    if (password !== passwordField.value) {
+      passError.hidden = false;
+      passError.textContent = "Password doesn't match";
+    } else {
+      checkPassWord(passwordField.value);
+    }
+  }
+}
+
+confirmpasswordField.addEventListener("keyup", function (e) {
+  clearTimeout(typeTimer);
+  passError.hidden = true;
+
+  if (confirmpasswordField.value) {
+    typeTimer = setTimeout(() => {
+      confirmPassCheck(confirmpasswordField.value);
+    }, 500);
   } else {
-    return;
   }
 });
 
-// keydown event on confirm password input field
-confirmPassInp.addEventListener("keydown", function () {
-  clearTimeout(typingTimer);
+confirmpasswordField.addEventListener("keydown", function (e) {
+  clearTimeout(typeTimer);
 });

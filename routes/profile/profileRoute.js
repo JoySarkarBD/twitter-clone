@@ -1,25 +1,75 @@
-// Dependencies
-const profileRoute = require("express").Router();
-const getProfileWithTweets = require("../../controllers/profile/getProfileWithTweets");
-const getProfileWithReplies = require("../../controllers/profile/getProfileWithReplies");
-const htmlResponse = require("../../middlewares/common/htmlResponse");
+const uploadAvatarHandlar = require("../../controllers/APIs/uploadAvatarHandlar");
+const uploadCoverImgHandlar = require("../../controllers/APIs/uploadCoverImgHandlar");
+const followersHandler = require("../../controllers/follow/followersHandler");
+const followingHandler = require("../../controllers/follow/followingHandler");
+const followHandler = require("../../controllers/profile/followHandler");
+const postHandler = require("../../controllers/profile/postHandler");
+const repliesHandler = require("../../controllers/profile/repliesHandler");
+const uploadAvatarImage = require("../../middlewares/APIs/uploadAvatarImage");
+const uploadCoverImage = require("../../middlewares/APIs/uploadCoverImage");
+const htmlResponse = require("../../middlewares/common/html");
 const loginChecker = require("../../middlewares/common/loginChecker");
 require("dotenv").config();
 
-// Get Profile Page with user's tweets
+/* dependencies */
+const profileRoute = require("express").Router();
+
+/* post handler */
 profileRoute.get(
-  "/:userName",
-  htmlResponse(`Home Page - ${process.env.APP_NAME}`),
+  "/:username",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
   loginChecker,
-  getProfileWithTweets
-);
-// Get Profile Page with user's replied tweets
-profileRoute.get(
-  "/:userName/replies",
-  htmlResponse(`Home Page - ${process.env.APP_NAME}`),
-  loginChecker,
-  getProfileWithReplies
+  postHandler
 );
 
-// Module Export
+/* replies handler */
+profileRoute.get(
+  "/:username/replies",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  repliesHandler
+);
+
+/* follow or un-follow handler */
+profileRoute.put(
+  "/:id/follow",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  followHandler
+);
+
+/* get all followers */
+profileRoute.get(
+  "/:username/followers",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  followersHandler
+);
+
+/* get all followings */
+profileRoute.get(
+  "/:username/following",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  followingHandler
+);
+
+/* upload or update avatar||profile image */
+profileRoute.post(
+  "/avatar",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  uploadAvatarImage,
+  uploadAvatarHandlar
+);
+
+/* upload or update avatar||profile image */
+profileRoute.post(
+  "/coverphoto",
+  htmlResponse(`Profile-${process.env.APP_NAME}`),
+  loginChecker,
+  uploadCoverImage,
+  uploadCoverImgHandlar
+);
+
 module.exports = profileRoute;

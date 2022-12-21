@@ -1,56 +1,57 @@
 extends ./../../layouts/header.pug
+//- title
+block title 
+    title= title
 
-
-block title
-    title= title 
-
-
-
+//- css link
 block cssLink
-    link(rel="stylesheet", href="/css/verifyOtp.min.css")
+    link(rel="stylesheet", href="/css/login.css")
 
-
-
+//- script added 
 block jsScript
-    script(src="/js/verifyOtp.js" defer) 
-
-
+    script(src="/js/verifyOtp.js" defer)
 
 block bodyContent
-        .signin-section
-            .wrapper
-                .signin-wrapper
-                    div.social-icon
-                        i.fab.fa-twitter
+    .signInContainer
+        .wrapper
+            .loginWrapper
+                .social_icon
+                    i.fab.fa-twitter
+                
+                h2 Verify OTP
+                p
+                    | We have sent a OTP to 
+                    span.text-primary #{otp.email}
+                
+                //- form 
+                form(action="/verifyOtp", method="post" )
+                    label(for="otp") Enter Your OTP
 
-                    h2 Verify OTP
+                    .Otp_field
+                        i.Otp_icon.fas.fa-user-lock
+                        input#otpArea(type="number", maxlength='6'  name="otp" class="form-control" required='' value=otp.value)
+                    if error.otp
+                        p.error.username-error.py-2 #{error.otp.msg}
 
-                    p.text-center Send a OTP in #{otp.email}. Check your inbox or spam.
+                    input(type="hidden" name="otpId" value=otp.otpId)
+                    input(type="hidden" name="otpEmail" value=otp.email)
+                    
+                    //-submit button 
+                    input(type="submit", value="Verify OTP" class="form-control login_btn")
 
-                    form(action='/OTP-verification', method="post")
+                    
+                
 
-                        label(for="otp") OTP
-                        
-                        .user-input 
-                            i.user-icon.fas.fa-lock-open
-                            input#userName(type="number", name="otp" maxlength="6" class="form-control", value= otp.value )
-
-                            input(type="hidden" name="otpId" value= otp.otpId)
-                            input(type="hidden" name="otpEmail" value= otp.email)
-                        
-                        if error.otp
-                            p.error.userName-error #{error.otp.msg}
-     
-                        input(type="submit" class="form-control signin-btn" value="Verify Now")
-
-                        p.count-down.text-center.fw-bold.mt-3#countdown OTP Expire:
-                            span.ps-1.text-danger.time 01:59
-
-                    form(action='/resetPassword', method="post")
-                        input(type="hidden", name="userName"  class="form-control", value= otp.email)
-
-                        input#resend-otp(type="submit", value="Resend OTP" class="form-control signin-btn")
-
-                        .footer-link 
-                            p.disclaim.mt Need to sign in? 
-                                a(href='/signin') sign in here
+                p#countdown.text-center.py-2
+                    | Expires In 
+                    span.text-warning 1:59
+            
+                form(action="/resetpassword" method="post")
+                    input(type="hidden" name="username" value=otp.email)
+                    input(type="submit" value="Resend OTP" class="form-control login_btn my-2")
+                //- text 
+                .reset-container.d-flex.justify-content-between 
+                    p.disclaim Don't have an account? 
+                        a(href="/signup") Sign up
+                    
+                    

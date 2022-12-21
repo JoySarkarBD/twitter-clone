@@ -1,37 +1,35 @@
-// Dependencies
+/* dependencies */
 const upload = require("multer-uploader");
 const path = require("path");
 
-function avatarUpload(req, res, next) {
+/* avatar upload middleware */
+function avatarUploader(req, res, next) {
   //directory
-  const uploadDirectory = path.join(__dirname, "/../../public/uploads/profile");
-  // file size
-  const maxFileSize = 10000000;
-  // allowed file formate
-  const allowedMimeType = [
+  // const upload_dir = path.join(__dirname, "/../../public/uploads/profile");
+  const upload_dir = path.join(__dirname, "/../../temp");
+  //file size
+  const max_file_size = 1000000;
+  //file type
+  const avatar_mime_type = [
+    "image/png",
     "image/jpg",
     "image/jpeg",
-    "image/png",
     "image/svg+xml",
   ];
 
-  upload(uploadDirectory, maxFileSize, allowedMimeType).single("avatarProfile")(
+  //upload middleware
+  upload(upload_dir, max_file_size, avatar_mime_type).single("avatarProfile")(
     req,
     res,
-    (err) => {
+    err => {
       if (err) {
-        const user = req.body;
-
         const error = {
           avatarProfile: {
-            msg: err?.message,
+            msg: err.message,
           },
         };
         req.error = error;
-        res.render("pages/signup", {
-          user,
-          error,
-        });
+        next();
       } else {
         next();
       }
@@ -39,5 +37,5 @@ function avatarUpload(req, res, next) {
   );
 }
 
-// Module Export
-module.exports = avatarUpload;
+/* exports */
+module.exports = avatarUploader;

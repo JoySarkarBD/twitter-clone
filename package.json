@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon --ignore public/ server.js"
   },
   "keywords": [],
-  "author": "Joy Sarkar",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -18,10 +18,10 @@
     "express-validator": "^6.14.2",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.6.7",
+    "mongoose": "^6.8.0",
     "multer-uploader": "^1.0.9",
     "nodemailer": "^6.8.0",
     "pug": "^3.0.2",
-    "redis": "^4.5.0"
+    "redis": "^4.5.1"
   }
 }

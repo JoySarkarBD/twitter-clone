@@ -1,40 +1,34 @@
 extends ./../layouts/header.pug
+//- title
+block title 
+    title= title
 
-
-block title
-    title= title 
-
-
-
+//- css link
 block cssLink
-    link(rel="stylesheet", href="/css/signup.min.css")
+    link(rel="stylesheet", href="/css/signup.css")
 
-
-
-
-
+//- script added 
 block jsScript
     script(src="/js/signup.js" defer) 
 
-
-
+//- body 
 block bodyContent
-    .signup-section
+    .signUpContainer
         .wrapper
-            .signup-wrapper
-                div.social-icon
+            .signUpWrapper
+                .social_icon
                     i.fab.fa-twitter
-
+                
                 h2 Join Twitter today
-
+                //- form 
                 form.position-relative(action='/signup', method="post" enctype="multipart/form-data")
 
                     .signup-content 
 
                         div
                             label(for="firstName") First Name
-                                input#firstName(type="text", name="firstName" class="form-control" value= user ? user.firstName : '' required="")
-                                
+
+                            input#firstName(type="text", name="firstName" class="form-control" value= user ? user.firstName : '' required="")
 
                             if error.firstName 
                                 p.error.firstName-error #{error.firstName.msg}
@@ -50,55 +44,57 @@ block bodyContent
                     .signup-content
 
                         div.position-relative 
-                            label(for="userName") User Name
+                            label(for="username") User Name
 
-                            input#userName(type="text", name="userName" class="form-control" value= user ? user.userName : '' required="")
+                            input#username(type="text", name="username" class="form-control" value= user ? user.username : '' required="")
 
-                            if error.userName 
-                                p.error.userName-error.position-absolute #{error.userName.msg}                             
-
-                        div.position-relative 
+                            if error.username 
+                                p.error.username-error #{error.username.msg}                                                     
+                            p#userMsg.position-absolute Username Already Taken
+                    
+                        div.position-relative
                             label(for="email") Email
 
                             input#email(type="email", name="email" class="form-control" value= user ? user.email : '' required="")
 
                             if error.email 
-                                p.error.email-error.position-absolute #{error.email.msg}
-
+                                p.error.email-error #{error.email.msg}
+                            p#emailMsg.position-absolute Email already exist
                     .signup-content
 
                         div 
                             label(for="password")  Password
-                            .passContainer.d-flex.align-items-center
-                                input#password(type="password", name="password" class="form-control" value= user && !error.password && !error.confirmPassword ? user.password : '' required="")
 
-                                span#passEyeIcon 
+                            .passwordContainer 
+                                input#password(type="password", name="password" class="form-control" value= user ? user.password : '' required="")
+                                span#passwordEyeIcon 
                                     i.fas.fa-eye-slash 
 
-                            if error.password
+                            if error.password 
                                 p.error.password-error #{error.password.msg}
 
+
                         div 
-                            label(for="confirmPassword")  Confirm password
-                            .passContainer.d-flex.align-items-center
-                                input#confirmPassword(type="password", name="confirmPassword" class="form-control" value= user && !error.password && !error.confirmPassword ? user.confirmPassword : '' required="")
+                            label(for="confirmpassword")  Confirm password
+                            .passwordContainer
+                                input#confirmpassword(type="password", name="confirmpassword" class="form-control" value= user ? user.confirmpassword : '' required="")
+                                span#confirmPasswordEyeIcon 
+                                        i.fas.fa-eye-slash
+                            
+                            if error.confirmpassword 
+                                p.error.confirmpassword-error #{error.confirmpassword.msg}
+                    
+                    p.text-danger.mt-3.position-absolute#passError
 
-                                span#confirmPassEyeIcon 
-                                    i.fas.fa-eye-slash
 
-                            if error.confirmPassword 
-                                p.error.confirmPassword-error #{error.confirmPassword.msg}
-
-                    p#pass_errors.position-absolute 
-                    p#pass_matched.position-absolute 
 
                     label(for="avatarProfile")  Profile Avatar
 
                     input#avatarProfile(type="file", name="avatarProfile" class="form-control avatar-input" accept=".jpg, .jpeg, .png, .svg")
                     if error.avatarProfile 
-                        p.error.confirmPassword-error #{error.avatarProfile.msg}
+                        p.error.confirmpassword-error #{error.avatarProfile.msg}
                         
                     input(type="submit", value="Sign Up" class="form-control signup-btn")
 
-                p.disclaim Already have an account? 
-                    a(href='/signin') sign in here
+                p.disclaim.mt-3 Already have an account? 
+                    a(href='/login') sign in here

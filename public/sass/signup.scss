@@ -1,6 +1,6 @@
-.signup-section {
+.signUpContainer {
   background: linear-gradient(rgba(24, 23, 23, 0.4), rgba(32, 29, 29, 0.9)),
-    url(../assets/signup.jpg) center;
+    url(../assets/bg_img/login1.jpg) center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   margin: 0 auto;
 }
 
-.signup-wrapper {
+.signUpWrapper {
   background: #ffffff;
   padding: 22px 30px;
   border-radius: 6px;
@@ -25,9 +25,17 @@
     font-weight: 600;
     text-align: center;
   }
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  /* h2 {
+    text-align: center;
+    font-weight: 600;
+    padding: 10px 0;
+  } */
 }
 
-.social-icon {
+.social_icon {
   text-align: center;
   font-size: 40px;
   color: #1d9bf0;
@@ -35,30 +43,40 @@
 
 .signup-content {
   display: flex;
-  justify-content: space-between;
+
+  div {
+    margin-right: 10px;
+  }
+  p#userMsg,
+  #emailMsg {
+    font-size: 11px;
+    top: 85px;
+    letter-spacing: 1.5px;
+    left: 2px;
+  }
 }
 
 label {
   font-size: 14px;
   margin-top: 20px;
+  margin-bottom: 4px;
   color: #7a8791;
 }
 
 .form-control {
-  border-bottom: 1px solid #272c30;
+  // border-bottom: 1px solid #272c30;
   border-left: 0;
   border-top: 0;
   border-right: 0;
   outline: 0 !important;
   border-radius: 0;
-  width: 215px;
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.2);
 }
 
 .signup-btn {
   margin: 20px 0 0;
   background: #272c30;
   color: #ffffff;
-  width: 100%;
 }
 
 a {
@@ -82,22 +100,20 @@ a {
   background: rgb(82, 180, 245);
   border: 1px solid rgb(82, 180, 245);
   color: #ffffff;
-  width: 100%;
 }
 
-.passContainer {
+.passwordContainer {
+  display: flex;
+  align-items: center;
   position: relative;
   span {
     position: absolute;
-    right: 0;
+    right: 8px;
+    color: #52b4f5;
     cursor: pointer;
   }
 }
-
-#pass_errors {
-  color: red;
-  margin-top: 2px;
+p#passError {
+  font-size: 11px;
+  bottom: 104px;
 }
-// .form-control[type=file]:not(:disabled):not([readonly]) {
-//     background: red;
-// }

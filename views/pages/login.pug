@@ -1,0 +1,59 @@
+extends ./../layouts/header.pug
+//- title
+block title 
+    title= title
+
+//- css link
+block cssLink
+    link(rel="stylesheet", href="/css/login.css")
+
+//- script added 
+block jsScript
+    script(src="/js/login.js" defer) 
+
+//- body 
+block bodyContent
+    .signInContainer
+        .wrapper
+            .loginWrapper
+                .social_icon
+                    i.fab.fa-twitter
+                
+                h2 Login To Twitter
+                //- form 
+                form(action="/login", method="post" )
+                    label(for="username") Username Or Email
+
+                    .name_field
+                        i.user_icon.fas.fa-user
+                        input#username(type="text", name="username" class="form-control" required='' value=error.username || error.password? user.username : '')
+                    if error.username
+                        p.error.username-error #{error.username.msg}
+
+                    //- password
+                    label(for="password") Password
+
+                     
+                    .pwd_field
+                        i.user_icon.fas.fa-lock
+                        input#password(type="password", name="password" class="form-control" required='' value=error.password ? "" :user.password )
+                        span#passwordEyeIcon 
+                            i.fas.fa-eye-slash
+                       
+                    if(error.password)
+                        p.error.password-error #{error.password.msg}
+
+                    //-submit button 
+                    input(type="submit", value="Log in" class="form-control login_btn")
+
+                //- text 
+                .reset-container.d-flex.justify-content-between.py-2 
+                    p.disclaim Don't have an account? 
+                        a(href="/signup") Sign up
+                    
+                    a.text-decoration-none(href="/resetpassword") Forgot Password?
+
+
+                        
+
+

@@ -1,62 +1,67 @@
-const Tweet = require("../../models/Tweet");
-const User = require("../../models/User");
+/* dependencies */
+
+const User = require("../../models/auth/UserModel");
+const Tweet = require("../../models/tweet/tweet");
 const {
-  getAndSetCachedData,
-  updateCacheData,
-} = require("../../utilities/cachedManagement");
-const populator = require("../../utilities/populator");
+  updateOrSetdata,
+  deleteCache,
+} = require("../../utilities/cacheManager");
+const postPopulate = require("../../utilities/postPopulat");
 
-const retweetHandler = async (req, res, next) => {
+async function retweetHandler(req, res, next) {
   try {
-    const postID = req.params.id;
-    const userID = req.id;
+    const userId = req._id;
+    const postId = req.params.id;
 
-    const removeRetweet = await Tweet.findOneAndDelete({
-      tweetedBy: userID,
-      tweetData: postID,
+    const deletedPost = await Tweet.findOneAndDelete({
+      tweetedBy: userId,
+      postData: postId,
     });
 
-    let retweetObj = removeRetweet;
-
-    // creating new tweet as retweet in db
-    if (retweetObj === null) {
-      const tweet = Tweet({
-        tweetedBy: userID,
-        tweetData: postID,
+    /* create new twitted post */
+    let data = deletedPost;
+    if (data === null) {
+      const tweet = new Tweet({
+        tweetedBy: userId,
+        postData: postId,
       });
-      retweetObj = tweet.save();
-      await updateCacheData(`tweet:${retweetObj._id}`, retweetObj);
+      data = await tweet.save();
+      await updateOrSetdata(`posts:${data._id}`, data);
+    } else {
+      /* delete cache  */
+      deleteCache(`posts:${data._id}`);
     }
 
-    const addAndRemoveRetweet = removeRetweet !== null ? "$pull" : "$addToSet";
+    const option = deletedPost !== null ? "$pull" : "$addToSet";
 
-    // updating retweet users in db for this tweet
-    const tweet = await Tweet.findByIdAndUpdate(
-      { _id: postID },
-      { [addAndRemoveRetweet]: { retweetedUsers: userID } },
-      {
-        new: true,
-      }
-    );
-
-    // update tweets to cache
-    await populator(tweet);
-    await updateCacheData(`tweet:${tweet._id}`, tweet);
-
-    // update user retweet field in db
-    const modifiedUserData = await User.findOneAndUpdate(
-      { _id: userID },
-      { [addAndRemoveRetweet]: { yourRetweets: postID } },
+    /* update tweet Or post */
+    const updatedPost = await Tweet.findOneAndUpdate(
+      { _id: postId },
+      { [option]: { retweetUsers: userId } },
       { new: true }
     );
 
-    // update user data to cache
-    await updateCacheData(`user:${userID}`, modifiedUserData);
+    /* populate post */
+    await postPopulate(updatedPost);
+    //update post or tweet
+    await updateOrSetdata(`posts:${updatedPost._id}`, updatedPost);
 
-    res.json(tweet);
+    /* update user */
+    const modifiedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      { [option]: { retweetPost: postId } },
+      { new: true }
+    );
+
+    /* update user data  */
+    await updateOrSetdata(`users:${modifiedUser._id}`, modifiedUser);
+
+    // console.log(updatePost);
+    return res.json(updatedPost);
   } catch (error) {
     next(error);
   }
-};
+}
 
+/* export func */
 module.exports = retweetHandler;

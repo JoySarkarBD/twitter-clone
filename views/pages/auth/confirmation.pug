@@ -1,28 +1,30 @@
 extends ./../../layouts/header.pug
+//- title
+block title 
+    title= title
 
-
-block title
-    title= title 
-
-
+//- css link
 block cssLink
-    link(rel="stylesheet", href="/css/confirmation.min.css")
+    link(rel="stylesheet", href="/css/confirmation.css")
 
+//- script added 
+block jsScript
+    script(src="/js/confirmation.js" defer)
 
 block bodyContent
-    main
-        .confirmation_section
-            .confirmation_image 
-                img(src="/assets/successfully_img.png", alt="")
+    .confirmation_container
+        .confirmation_img 
+            img(src="/assets/confirmation.png", alt="")
+        .text-center.my-4.congrats_text
+            h3 Congratulations!
+        .confirmation_header
+            p
+                | Dear, 
+                span #{name}
+                |  a confirmation message was sent on your 
+                span #{email} 
+                | To verify your email address.
 
-            .confirmation-inner.mx-auto.my-5.text-center.fw-bold 
-                h3 Congratulation !!
-
-            .px-4.text-center.confirmation-heading 
-                h5 A confirmation email was sent successfully
-
-            .w-10.text-center.confirmation-text
-                p
-                    |We have sent email to 
-                    a #{email} 
-                     | to verify your email address. After receiving the email follow the link provided to complete your registration.
+        .confirmation_text 
+            p  After receiving the email follow the link provided to complete your registration.
+            

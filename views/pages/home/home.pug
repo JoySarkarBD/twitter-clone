@@ -1,166 +1,178 @@
 extends ./../../layouts/header.pug
+//- title
+block title 
+    title= title
 
-
-block title
-    title= title 
-
-
-
+//- css link
 block cssLink
-    link(rel="stylesheet", href="/css/home.min.css")
+    link(rel="stylesheet", href="/css/home.css")
 
-
-
+//- script added 
 block jsScript
     script(src="/js/home.js" defer) 
 
-
-
+//- body 
 block bodyContent
-    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replyModalTitle', aria-hidden='true')
-        .modal-dialog(role='document')
+    -avatarSrc = user.profileAvatar ? `/uploads/${user._id}/profile/${user.profileAvatar}` : `/uploads/profile/profileAvatar.png`
+    
+    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replayModalTitle',          aria-hidden='true')
+        .modal-dialog
             .modal-content
                 .modal-header
-                    button.btn-close(type='button', data-dismiss='modal', aria-label='Close' onclick="clearReplyData()")
-                        span(aria-hidden="true") &times
+                    button.button-Close(type='button', data-dismiss='modal', aria-label='Close' onclick="clearReplyData()")
+                        span(aria-hidden='true') &times;
                 .modal-body
-                
-                .modal-footer.d-block
-                    .create_post.d-flex
-                        img(src="/uploads/profile/" + user.avatarProfile, alt="")
-                        .inp_fld_btn.w-100.d-flex.flex-column.flex-md-column.flex-sm-column.pe-3
-                            .post_area.w-100
-                                textarea(placeholder="Tweet your reply")#replyContentTextArea.w-100.border-0.pb-2
-                                //- preview img here
-                                .replyImgContainer.border-bottom.pt-2.pb-2
+        
+                .modal-footer
+                    .createPost 
+                        .replyAvatar
+                            img(src=avatarSrc, alt='')
 
-                                .action.d-flex.justify-content-between.align-items-center
-                                    .attach_inp 
-                                        label(for="replyImgInp")
-                                                i.fas.fa-image 
-                                        input#replyImgInp(type="file" multiple="") 
-                                    button.replyBtn(disabled) Reply
+                        .postField 
+                            textarea#replyContent(placeholder="Tweet Your Reply")
+                            .replyImgContainer
+                        
+                            .replyActions 
+                                label(for='replyImg' data-bs-toggle='tooltip', data-bs-placement='bottom', title='media')
+                                    svg.bi.bi-card-image(xmlns='http://www.w3.org/2000/svg', width='16', height='16', fill='currentColor', viewbox='0 0 16 16')
+                                        path(fill="#29A0F0" d='M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z' )
+                                        path(fill="#29A0F0" d='M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z' )
+                                input#replyImg(type='file', multiple, name='replyImg')
+                                button#replyBtn.replySubmit(disabled="") Reply
 
 
-    #main.main.d-flex.justify-content-between
-    
-        .left_part.d-flex.justify-content-between.flex-column.flex-md-column.flex-sm-column
-            .upper_part 
-                .logo.d-flex.justify-content-center.align-items-center
-                    a(href="/")
-                        i.fab.fa-twitter
-                .nav 
-                    nav.d-flex.flex-sm-column.flex-md-column.mb-3
-                        a.d-flex.align-items-center.text-dark(href="/") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M12 1.696L.622 8.807l1.06 1.696L3 9.679V19.5C3 20.881 4.119 22 5.5 22h13c1.381 0 2.5-1.119 2.5-2.5V9.679l1.318.824 1.06-1.696L12 1.696zM12 16.5c-1.933 0-3.5-1.567-3.5-3.5s1.567-3.5 3.5-3.5 3.5 1.567 3.5 3.5-1.567 3.5-3.5 3.5z')
-
-                            span.fw-bold
-                                | Home
-                        a.d-flex.align-items-center.text-dark.position-relative(href="/explore") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M10.09 3.098L9.72 7h5.99l.39-4.089 1.99.187L17.72 7h3.78v2h-3.97l-.56 6h3.53v2h-3.72l-.38 4.089-1.99-.187.36-3.902H8.78l-.38 4.089-1.99-.187L6.77 17H2.5v-2h4.46l.56-6H3.5V7h4.21l.39-4.089 1.99.187zM14.96 15l.56-6H9.53l-.56 6h5.99z')
-                            span.notify_no.position-absolute 
-                                span.rounded-pill 10
-                            span
-                                | Explore
-                        a.d-flex.align-items-center.text-dark.position-relative(href="/notifications") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M19.993 9.042C19.48 5.017 16.054 2 11.996 2s-7.49 3.021-7.999 7.051L2.866 18H7.1c.463 2.282 2.481 4 4.9 4s4.437-1.718 4.9-4h4.236l-1.143-8.958zM12 20c-1.306 0-2.417-.835-2.829-2h5.658c-.412 1.165-1.523 2-2.829 2zm-6.866-4l.847-6.698C6.364 6.272 8.941 4 11.996 4s5.627 2.268 6.013 5.295L18.864 16H5.134z')
-                            span.notify_no.position-absolute 
-                                span.rounded-pill 10
-                            span
-                                | Notifications
-                        a.d-flex.align-items-center.text-dark.position-relative(href="/messages") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z')
-                            span.notify_no.position-absolute 
-                                span.rounded-pill 10                                    
-                            span
-                                | Messages
-                        a.d-flex.align-items-center.text-dark(href="/bookmarks") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z')
-                            span
-                                | Bookmarks
-                        a.d-flex.align-items-center.text-dark(href="/lists") 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M3 4.5C3 3.12 4.12 2 5.5 2h13C19.88 2 21 3.12 21 4.5v15c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 22 3 20.88 3 19.5v-15zM5.5 4c-.28 0-.5.22-.5.5v15c0 .28.22.5.5.5h13c.28 0 .5-.22.5-.5v-15c0-.28-.22-.5-.5-.5h-13zM16 10H8V8h8v2zm-8 2h8v2H8v-2z')
-                            span
-                                | Lists
-                        a.d-flex.align-items-center.text-dark(href="/profile/"+user.userName) 
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                    path(d='M5.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C15.318 13.65 13.838 13 12 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46zM12 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM8 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4z')
-                            span
-                                | Profile
-                        a.d-flex.align-items-center.text-dark(href="/more")
-                            svg(viewbox='0 0 24 24' aria-hidden='true')
-                                g
-                                 path(d='M3.75 12c0-4.56 3.69-8.25 8.25-8.25s8.25 3.69 8.25 8.25-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12zM12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-4.75 11.5c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25S6 11.31 6 12s.56 1.25 1.25 1.25zm9.5 0c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25zM13.25 12c0 .69-.56 1.25-1.25 1.25s-1.25-.56-1.25-1.25.56-1.25 1.25-1.25 1.25.56 1.25 1.25z')
-                            span
-                                | More
-                .twi_btn 
-                    .twitter_btn(type="button").rounded-pill 
-                        a(href="compose/tweet") 
-                            | Tweet
-            .lower_part.position-relative
-                .logout_add_account.position-absolute.invisible 
-                    nav.position-relative
-                        a.border-top.d-flex.align-items-center.text-dark(href="/addAccount") 
-                            span
-                                | Add an existing account
-                        a.d-flex.align-items-center.text-dark(href="/logout") 
-                            span
-                                | Logout
-                #user_info.user_info.rounded-pill.d-flex
-                    .ava_info.d-flex
-                        .avatar
-                            img(src="/uploads/profile/" + user.avatarProfile, alt="")
-                        .info
-                            h4
-                                | #{user.firstName+ " " + user.lastName} 
-                            span.userName 
-                                | #{"@"+user.userName}
                     
-                    svg.ellips.ms-auto(viewbox='0 0 24 24' aria-hidden='true')
-                        g
-                            path(d='M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z')
 
-        .main-content.d-flex.justify-content-between
-            .center_part.border.border-top-0
-                .post_tweet_area.border-bottom
-                    .heading_area.d-flex.justify-content-between
-                        h4 Home
-                        svg(viewbox='0 0 24 24' aria-hidden='true' width="18" height="18" type="button")
-                            g
-                                path(d='M2 4c1.66 0 3-1.34 3-3h1c0 1.66 1.34 3 3 3v1C7.34 5 6 6.34 6 8H5c0-1.66-1.34-3-3-3V4zm7.89 4.9C11.26 7.53 12 5.35 12 2h2c0 3.35.74 5.53 2.1 6.9 1.36 1.36 3.55 2.1 6.9 2.1v2c-3.35 0-5.54.74-6.9 2.1-1.36 1.37-2.1 3.55-2.1 6.9h-2c0-3.35-.74-5.53-2.11-6.9C8.53 13.74 6.35 13 3 13v-2c3.35 0 5.53-.74 6.89-2.1zm7.32 3.1c-.97-.42-1.81-.97-2.53-1.69-.71-.71-1.27-1.56-1.68-2.52-.42.96-.98 1.81-1.69 2.52-.72.72-1.56 1.27-2.53 1.69.97.42 1.81.97 2.53 1.69.71.71 1.27 1.56 1.69 2.52.41-.96.97-1.81 1.68-2.52.72-.72 1.56-1.27 2.53-1.69z')
-                    .create_post.d-flex
-                        img(src="/uploads/profile/" + user.avatarProfile, alt="")
-                        .inp_fld_btn.w-100.d-flex.flex-column.flex-md-column.flex-sm-column.pe-3
-                            .post_area.w-100
-                                textarea(placeholder="What's happening?")#tweetContent.w-100.border-0.pb-2
-                                //- preview img here
-                                .img_container.border-bottom.pt-2.pb-2
+    main#main 
+        
+        .left_side 
+            .top_side 
+                .logo_area 
+                    a.logo(href="/") 
+                        i.fab.fa-twitter
+                .menu_area 
+                    nav.nav_area 
+                        a.nav_link(href="/") 
+                            span
+                                svg.bi.bi-house-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22',   fill='currentColor', viewbox='0 0 16 16')
+                                    path(fill-rule='evenodd', d='m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z')
+                                    path(fill-rule='evenodd', d='M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z')
+                                .notifications 1
+                            |   Home
 
-                                .action.d-flex.justify-content-between.align-items-center
-                                    .attach_inp 
-                                        label(for="postImage")
-                                                i.fas.fa-image 
-                                        input#postImage(type="file" multiple="") 
-                                    button(disabled).createTweetBtn Tweet
 
-                .tweetContainer  
+                        a.nav_link(href="/explore") 
+                            span
+                                svg.bi.bi-hash(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z')
+                                .notifications 1
+                            |   Explore
 
-            //- .end_part       
-            //-     h1 End Part
 
-    script. 
-        const user = !{userFrontEndData}
+                        a.nav_link(href="/notifications") 
+                            span
+                                svg.bi.bi-bell-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z')
+                                .notifications 1
 
+                            |   Notifications
+
+
+                        a.nav_link(href="/messages") 
+                            span
+                                svg.bi.bi-envelope(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z')
+                                .notifications 1
+
+
+                            |   Messages
+
+
+                        a.nav_link(href="/bookmars") 
+                            span
+                                svg.bi.bi-bookmark(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z')
+                                .notifications 1
+
+
+
+                            |   Bookmars
+
+
+                        a.nav_link(href="/bookmars") 
+                            span
+                                svg.bi.bi-list(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(fill-rule='evenodd', d='M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z')
+                                .notifications 1
+
+                            |   Lists
+
+
+                        a.nav_link(href="/profile/"+user.username) 
+                            span
+                                svg.bi.bi-person-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z')
+                                .notifications 1
+
+                            |   Profile
+
+
+                        a.nav_link() 
+                            span
+                                svg.bi.bi-three-dots(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z')
+                            |   More
+                    
+                .tweet_btn 
+                    button Tweet
+
+
+            #modall.modall
+                .modall-content
+                    p.mt-4.mb-4 Add an existing account
+                    p.mb-4
+                        a(href='/logout') Logout @#{user.username}
+
+            .bottom_side
+                .userinfo               
+                    .avatarImg
+                        img(src=avatarSrc, alt='')
+                    .userNameInfo
+                        h6 #{user.firstName} #{user.lastName}
+                        p @#{user.username}
+                    span#option
+                        svg.bi.bi-three-dots(xmlns='http://www.w3.org/2000/svg', width='16', height='16', fill='currentColor', viewbox='0 0 16 16')
+                            path(fill="#E7E9EA" d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z')
+                
+                
+                        
+                        
+            //- middle side
+        .middle_side 
+            .top_header_section
+                h6 Home
+                #stars
+                    svg.bi.bi-stars(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                        path(fill="#E7E9EA" d='M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z')
+ 
+            .tweet_write_section
+                .avatar_section
+                    img(src=avatarSrc, alt='')
+    
+                .text_container
+                    textarea#tweet_content(placeholder="What's Happening?")
+                    .imgContainer
+
+
+
+                    .tweet_btn 
+                        label(for='imgPost' data-bs-toggle='tooltip', data-bs-placement='bottom', title='media')
+                            svg.bi.bi-card-image(xmlns='http://www.w3.org/2000/svg', width='16', height='16', fill='currentColor', viewbox='0 0 16 16')
+                                path(fill="#29A0F0" d='M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z' )
+                                path(fill="#29A0F0" d='M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z' )
+                        input#imgPost(type='file', multiple='', name='imgPost')
+                        button#tweetPost.tweet_submit(disabled="") Tweet
+            .tweetContainer   
+        .right_side 
+    script.
+        const user = !{userJs}

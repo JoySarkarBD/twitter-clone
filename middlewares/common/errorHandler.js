@@ -1,27 +1,27 @@
-// Dependencies
+/* dependencies */
 const createError = require("http-errors");
 
-// Not Found Handler
-function notFoundHandler(req, res, next) {
-  next(createError(404, "Your Page Was Not Found!"));
+/* not found handler */
+function notFoundHandler(req, res) {
+  throw createError(404, "Your Page was not found");
 }
 
-// Error Handler middleware
+/* error handler */
+
 function errorHandler(err, req, res, next) {
   const error =
     process.env.NODE_ENV === "development" ? err : { message: err.message };
-
-  if (res.headersSent) {
+  // res.locals.html = true;
+  if (res.headerSent) {
     next(error);
   } else {
     try {
       res.locals.error = error;
-      res.status(error.status || 500);
+      const code = 500;
+      res.status(error.status || code);
 
       if (res.locals.html) {
-        res.render("pages/error", {
-          title: "Error Page",
-        });
+        res.render("pages/error", { title: `Error page` });
       } else {
         res.json(error);
       }
@@ -31,5 +31,7 @@ function errorHandler(err, req, res, next) {
   }
 }
 
-// Module Exports
-module.exports = { notFoundHandler, errorHandler };
+module.exports = {
+  notFoundHandler,
+  errorHandler,
+};

@@ -1,16 +1,19 @@
-// Dependencies
+/* dependencies */
+const createHttpError = require("http-errors");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
+/* create authentication checker */
 const loginChecker = async (req, res, next) => {
   try {
-    if (req?.signedCookies?.access_token) {
+    if (req.signedCookies.access_token) {
       const token = req.signedCookies.access_token.split(" ")[1];
-      const decode = await jwt.verify(token, process.env.JWT_SECRET);
-
+      const decode = await jwt.verify(token, process.env.JWT_SECRETE);
+      req.username = decode.username;
       req.email = decode.email;
-      req.userName = decode.userName;
-      req.id = decode._id;
-      if (req.originalUrl === "/signin" || req.originalUrl === "/signup") {
+      req._id = decode._id;
+
+      if (req.originalUrl === "/signup" || req.originalUrl === "/login") {
         return res.redirect("/");
       }
       next();
@@ -18,20 +21,18 @@ const loginChecker = async (req, res, next) => {
       if (req.originalUrl === "/signup") {
         return res.render("pages/signup", { user: {}, error: {} });
       }
-
-      res.render("pages/signin", { user: {}, error: {} });
+      return res.render("pages/login", { user: {}, error: {} });
     }
   } catch (error) {
     if (error.message === "jwt expired") {
       if (req.originalUrl === "/signup") {
         return res.render("pages/signup", { user: {}, error: {} });
       }
-
-      res.render("pages/signin", { user: {}, error: {} });
+      return res.render("pages/login", { user: {}, error: {} });
     }
     next(error);
   }
 };
 
-// Module Export
+/* export authentication function */
 module.exports = loginChecker;

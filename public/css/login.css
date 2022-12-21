@@ -1,0 +1,116 @@
+.signInContainer {
+  background: linear-gradient(rgba(24, 23, 23, 0.4), rgba(32, 29, 29, 0.9)), url(./../assets/bg_img/login1.jpg) center;
+  background-size: cover;
+  max-width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  max-width: 500px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.loginWrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+.loginWrapper h2 {
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.social_icon {
+  text-align: center;
+  font-size: 40px;
+  color: #1a8cd8;
+}
+
+label {
+  font-size: 14px;
+  margin: 20px 0 4px 0;
+  color: #7a8791;
+}
+
+.name_field,
+.pwd_field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user_icon {
+  z-index: 1;
+}
+
+.form-control {
+  border-radius: 0;
+  background: transparent;
+  margin-left: -20px;
+  padding: 5px 20px 5px 30px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.login_btn {
+  margin: 20px 0 0;
+  background-color: #1a8cd8;
+  color: #fff;
+  border: 0;
+}
+
+.disclaim a {
+  text-decoration: none;
+}
+
+.error {
+  color: red;
+  font-size: 13px !important;
+  margin-bottom: 0 !important;
+}
+
+.otpHeadingText {
+  font-size: 14px;
+}
+
+#countDown {
+  font-weight: 700;
+}
+#countDown span {
+  color: blue;
+}
+
+.Otp_field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 9px;
+}
+.Otp_field .Otp_icon {
+  z-index: 1;
+  position: absolute;
+  left: 5px;
+}
+.Otp_field input#otpArea {
+  padding-left: 50px;
+}
+
+.pwd_field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.pwd_field span {
+  position: absolute;
+  right: 8px;
+  color: #52b4f5;
+  cursor: pointer;
+}

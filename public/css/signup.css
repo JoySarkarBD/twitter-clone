@@ -1,0 +1,115 @@
+.signUpContainer {
+  background: linear-gradient(rgba(24, 23, 23, 0.4), rgba(32, 29, 29, 0.9)), url(../assets/bg_img/login1.jpg) center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  height: 100vh;
+}
+
+.wrapper {
+  max-width: 500px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.signUpWrapper {
+  background: #ffffff;
+  padding: 22px 30px;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  /* h2 {
+    text-align: center;
+    font-weight: 600;
+    padding: 10px 0;
+  } */
+}
+.signUpWrapper h2 {
+  padding: 15px 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.social_icon {
+  text-align: center;
+  font-size: 40px;
+  color: #1d9bf0;
+}
+
+.signup-content {
+  display: flex;
+}
+.signup-content div {
+  margin-right: 10px;
+}
+.signup-content p#userMsg,
+.signup-content #emailMsg {
+  font-size: 11px;
+  top: 85px;
+  letter-spacing: 1.5px;
+  left: 2px;
+}
+
+label {
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 4px;
+  color: #7a8791;
+}
+
+.form-control {
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  outline: 0 !important;
+  border-radius: 0;
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.signup-btn {
+  margin: 20px 0 0;
+  background: #272c30;
+  color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+  color: #1d9bf0;
+}
+
+.error {
+  color: #a52a2a;
+  font-size: 13px;
+  margin-bottom: 0 !important;
+}
+
+.disclaim {
+  color: #7a8791;
+  font-size: 14px;
+}
+
+.avatar-input {
+  background: rgb(82, 180, 245);
+  border: 1px solid rgb(82, 180, 245);
+  color: #ffffff;
+}
+
+.passwordContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.passwordContainer span {
+  position: absolute;
+  right: 8px;
+  color: #52b4f5;
+  cursor: pointer;
+}
+
+p#passError {
+  font-size: 11px;
+  bottom: 104px;
+}

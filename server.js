@@ -1,62 +1,70 @@
-// Dependencies
+/* dependencies */
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const {
   notFoundHandler,
   errorHandler,
-} = require("./middlewares/common/errorHandler");
-const cookieParser = require("cookie-parser");
-const authRouter = require("./routes/auth/authRoute");
-const homeRoute = require("./routes/home/homeRoute");
-const postRoute = require("./routes/APIS/getCreateNewTweetRoute");
-const { redisClient } = require("./utilities/cachedManagement");
-const profileRoute = require("./routes/profile/profileRoute");
+} = require("./middlewares/common/errorhandler");
+const authRoute = require("./routes/auth/authRoutes");
 
-// App Initialization and Config
+/* initialize app */
 const app = express();
+const port = process.env.PORT || 3000;
+app.set("view engine", "pug");
 dotenv.config();
 
-// Express Settings
-app.set("view engine", "pug");
-app.set("views", "views");
+/* add database */
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+const { cookie } = require("express-validator");
+const cookieParser = require("cookie-parser");
+const homeRouter = require("./routes/home/homeRoute");
+const tweetRoute = require("./routes/APIs/tweetPost");
+const { redisClient } = require("./utilities/cacheManager");
+const singlePost = require("./routes/APIs/singlePost");
+const profileRoute = require("./routes/profile/profileRoute");
 
-// Middleware
+/* middleware */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRETE));
 
-// Routes
-app.use(authRouter);
+/* auth route */
+app.use(authRoute);
 
-app.use("/posts", postRoute); //Post Route
-app.use("/profile", profileRoute); //Profile Route
-app.use("/", homeRoute); //Home Route
+/* posts route */
+app.use("/posts", tweetRoute);
 
-// Not Found Handler
+/* profile route */
+app.use("/profile", profileRoute);
+
+/* single post route */
+app.use("/", singlePost);
+
+/* home route */
+app.use("/", homeRouter);
+
+/* not found handler */
 app.use(notFoundHandler);
 
-// Error Handler
+/* error handler */
 app.use(errorHandler);
 
-// Mongodb Connection
-async function twitter() {
-  try {
-    await redisClient.connect();
-    await mongoose.connect(process.env.DB_URI, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
+/* app listening */
+redisClient.connect();
+mongoose
+  .connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("db connected");
+    app.listen(port, () => {
+      console.log(`server is running at: ${port}`);
     });
-    console.log("DB connected Successfully!!");
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// Server Listen
-app.listen(process.env.PORT || 3000, () => {
-  twitter();
-  console.log("Server connected on port" + " " + (process.env.PORT || 3000));
-});
+  })
+  .catch((err) => {
+    console.log(err);
+  });

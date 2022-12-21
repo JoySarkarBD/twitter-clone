@@ -1,65 +1,60 @@
+/* dependencies */
 const createHttpError = require("http-errors");
-const OTP = require("../../models/OTP");
-
-const verifyOTP = async (req, res, next) => {
-  const otpIn = req.body?.otp;
-  const otpId = req.body?.otpId;
-  const otpObj = await OTP.findOne({ _id: otpId });
+const OTP = require("../../models/auth/OtpModel");
+/* create verify otp Controller */
+const verifyOtp = async (req, res) => {
   try {
-    if (
-      Number(otpIn) === otpObj.otp &&
-      otpObj?.expireIn.getTime() > Date.now()
-    ) {
-      const output = await OTP.findOneAndUpdate(
-        {
-          _id: otpObj._id,
-        },
-        {
-          $set: {
-            status: true,
-          },
-        }
-      );
+    const otp = Number(req.body.otp);
+    const otpId = req.body.otpId;
 
-      if (output) {
+    const otpObj = await OTP.findOne({ _id: otpId });
+    if (otpObj.OTP === otp && otpObj.expiresIn.getTime() > Date.now()) {
+      const result = await OTP.findOneAndUpdate(
+        { _id: otpObj._id },
+        { $set: { status: true } }
+      );
+      if (result) {
         res.render("pages/auth/createNewPassword", {
           error: {},
           user: {},
-          otp: { otpId: output._id, otp: output.otp },
+          otp: {
+            otpId: result._id,
+            otp: result.OTP,
+          },
         });
       } else {
-        throw createHttpError(500, "Internal server error.");
+        createHttpError(500, "Something went wrong");
       }
     } else {
-      const errMessage =
-        otpObj?.expireIn.getTime() > Date.now() ? "Invalid OTP" : "Expired OTP";
-      res.render("pages/auth/verifyOTP", {
+      const errMsg =
+        otpObj.expiresIn.getTime() > Date.now() ? "Invalid OTP" : "Expired OTP";
+      res.render("pages/auth/verifyOtp", {
         error: {
           otp: {
-            msg: errMessage,
+            msg: errMsg,
           },
         },
         otp: {
-          value: otpIn,
-          otpId: otpId,
-          email: otpObj?.email,
+          value: otp,
+          otpId: otpObj._id,
+          email: otpObj.email,
         },
       });
     }
   } catch (error) {
-    res.render("pages/auth/verifyOTP", {
+    res.render("pages/auth/verifyOtp", {
       error: {
         otp: {
-          msg: "Some problems getting here...!",
+          msg: "Something Wrong",
         },
       },
       otp: {
-        value: otpIn,
-        otpId: otpId,
-        email: otpObj?.email,
+        value: otp,
+        otpId: otpObj._id,
+        email: otpObj.email,
       },
     });
   }
 };
 
-module.exports = verifyOTP;
+module.exports = verifyOtp;

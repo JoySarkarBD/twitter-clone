@@ -1,10 +1,10 @@
-// Get Sign In Page
-const getSignIn = (req, res, next) => {
+/* login page handler */
+const loginHandler = (req, res, next) => {
   try {
-    res.render("pages/signin");
+    res.render("pages/login", { user: {}, error: {} });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = getSignIn;
+module.exports = loginHandler;

@@ -1,35 +1,30 @@
-const countdown = document.getElementById("countdown");
-const timer = document.querySelector("#countdown span");
+const countdown = document.querySelector("#countdown");
+const countTimer = document.querySelector("#countdown span");
 
-let min = 01;
-let sec = 59;
-
-const otpTimer = setInterval(() => {
-  if (!((min === 0) & (sec === 0))) {
-    sec--;
+let minutes = 1;
+let seconds = 59;
+console.log(seconds);
+const timer = setInterval(() => {
+  if (!(minutes === 0 && seconds === 0)) {
+    seconds--;
   } else {
     clearInterval(timer);
-    countdown.innerHTML = "OTP ALREADY EXPIRED.....!";
-    countdown.style.setProperty("color:", "#red", "important");
+    countdown.innerHTML = "OTP Expired";
+    countdown.style.setProperty("color", "#f33838", "important");
   }
-  if (sec === 0) {
-    if (!((min === 0) & (sec === 0))) {
-      sec = 59;
-      min = 00;
+
+  if (seconds === 0) {
+    if (!(minutes === 0 && seconds === 0)) {
+      minutes = 0;
+      seconds = 59;
     }
   }
-  if (sec === 0) {
-    if (!((min === 0) & (sec === 0))) {
-      sec = 59;
-      min = 0;
-    }
-  }
-  if (!((min === 0) & (sec === 0))) {
-    timer.textContent =
-      "0" + min + ":" + (sec.toString().length === 1 ? "0" + sec : sec);
+
+  if (!(minutes === 0 && seconds === 0)) {
+    countTimer.innerHTML =
+      "0" +
+      minutes +
+      ":" +
+      (seconds.toString().length === 1 ? "0" + seconds : seconds);
   }
 }, 1000);
-
-document.addEventListener("resend-otp").onclick = () => {
-  window.location.reload();
-};

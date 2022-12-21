@@ -1,0 +1,272 @@
+extends ./../../layouts/header.pug
+//- title
+block title 
+    title= title
+
+//- css link
+block cssLink
+    link(rel="stylesheet", href="/css/home.css")
+    link(rel="stylesheet", href="/css/profile.css")
+    link(rel="stylesheet", type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css")
+
+//- script added 
+block jsScript  
+    script(src="/js/common.js" defer) 
+    script(src="/js/profile.js" defer) 
+    script(src="/js/uploadImage.js" defer) 
+
+//- body 
+block bodyContent
+    -avatarSrc = user.profileAvatar ? `/uploads/${user._id}/profile/${user.profileAvatar}` : `/uploads/profile/profileAvatar.png`
+    
+    -userAvatarSrc = profileUser.profileAvatar ? `/uploads/${profileUser._id}/profile/${profileUser.profileAvatar}` : `/uploads/profile/profileAvatar.png`
+
+    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replayModalTitle',          aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.button-Close(type='button', data-dismiss='modal', aria-label='Close' onclick="clearReplyData()")
+                        span(aria-hidden='true') &times;
+                .modal-body
+        
+                .modal-footer
+                    .createPost 
+                        .replyAvatar
+                            img(src=avatarSrc, alt='')
+
+                        .postField 
+                            textarea#replyContent(placeholder="Tweet Your Reply")
+                            .replyImgContainer
+                        
+                            .replyActions 
+                                label(for='replyImg' data-bs-toggle='tooltip', data-bs-placement='bottom', title='media')
+                                    svg.bi.bi-card-image(xmlns='http://www.w3.org/2000/svg', width='16', height='16', fill='currentColor', viewbox='0 0 16 16')
+                                        path(fill="#29A0F0" d='M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z' )
+                                        path(fill="#29A0F0" d='M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z' )
+                                input#replyImg(type='file', multiple, name='replyImg')
+                                button#replyBtn.replySubmit(disabled="") Reply
+    
+    
+    #avatarUpdateModal.modal.fade(tabindex='-1', aria-labelledby='avatarUpdateModalTitle',  role="dialog"        aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5#avatarUpdateModalTitle.modal-title Update Profile Avatar
+
+                    button.button-Close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+
+                .modal-body
+                    input#updateInputAvatar(type="file")
+                    #avatarPrevieContainer
+                        img#avatarPreview
+        
+                .modal-footer
+                    button.btn.btn.btn-danger.avatarUpdateCloseBtn(type="button", data-dismiss="modal")  Close
+                    button#saveAvatarImage.btn.btn-primary.avatarUpdateSaveBtn(type="button")  Update
+
+    #coverUpdateModal.modal.fade(tabindex='-1', aria-labelledby='coverUpdateModalTitle',  role="dialog"        aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5#coverUpdateModalTitle.modal-title Update Cover Photo
+
+                    button.button-Close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+
+                .modal-body
+                    input#updateInputCover(type="file")
+                    #CoverPrevieContainer
+                        img#CoverPreview
+        
+                .modal-footer
+                    button.btn.btn-danger.CoverUpdateCloseBtn(type="button", data-dismiss="modal")  Close
+                    button#saveCoverImage.btn.btn-primary.CoverUpdateSaveBtn(type="button")  Update                
+
+    main#main 
+        
+        .left_side 
+            .top_side 
+                .logo_area 
+                    a.logo(href="/") 
+                        i.fab.fa-twitter
+                .menu_area 
+                    nav.nav_area 
+                        a.nav_link(href="/") 
+                            span
+                                svg.bi.bi-house-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22',   fill='currentColor', viewbox='0 0 16 16')
+                                    path(fill-rule='evenodd', d='m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z')
+                                    path(fill-rule='evenodd', d='M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z')
+                                .notifications 1
+                            |   Home
+
+
+                        a.nav_link(href="/explore") 
+                            span
+                                svg.bi.bi-hash(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z')
+                                .notifications 1
+                            |   Explore
+
+
+                        a.nav_link(href="/notifications") 
+                            span
+                                svg.bi.bi-bell-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z')
+                                .notifications 1
+
+                            |   Notifications
+
+
+                        a.nav_link(href="/messages") 
+                            span
+                                svg.bi.bi-envelope(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z')
+                                .notifications 1
+
+
+                            |   Messages
+
+
+                        a.nav_link(href="/bookmars") 
+                            span
+                                svg.bi.bi-bookmark(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z')
+                                .notifications 1
+
+
+
+                            |   Bookmars
+
+
+                        a.nav_link(href="/bookmars") 
+                            span
+                                svg.bi.bi-list(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(fill-rule='evenodd', d='M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z')
+                                .notifications 1
+
+                            |   Lists
+
+
+                        a.nav_link(href="/profile/"+user.username)
+                            span
+                                svg.bi.bi-person-fill(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z')
+                                .notifications 1
+
+                            |   Profile
+
+
+                        a.nav_link() 
+                            span
+                                svg.bi.bi-three-dots(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z')
+                            |   More
+                    
+                .tweet_btn 
+                    button Tweet
+
+
+            #modall.modall
+                .modall-content
+                    p.mt-4.mb-4 Add an existing account
+                    p.mb-4
+                        a(href='/logout') Logout @#{user.username}
+
+            .bottom_side
+                .userinfo               
+                    .avatarImg
+                        img(src=avatarSrc, alt='')
+                    .userNameInfo
+                        h6 #{user.firstName} #{user.lastName}
+                        p @#{user.username}
+                    span#option
+                        svg.bi.bi-three-dots(xmlns='http://www.w3.org/2000/svg', width='16', height='16', fill='currentColor', viewbox='0 0 16 16')
+                            path(fill="#E7E9EA" d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z')
+                
+                
+                        
+                        
+            //- middle side
+        
+        .middle_side 
+            if profileUser !== null
+                .top_heading_section
+                    a(href="/") 
+                        svg.bi.bi-arrow-left(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                            path( fill-rule='evenodd', d='M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z' fill='#E7E9EA')
+                    
+                    h4 #{profileUser.firstName} #{profileUser.lastName}
+                    
+                    .total_tweets-Count 
+                        h6 #{totalTweetsCount.length}
+                            
+
+                .profile_heading_container 
+
+                    .coverImage 
+                        img(src="/uploads/profile/avatar.png", alt="")
+
+                        if profileUser.username === user.username
+                            button.uploadCoverImg(data-toggle="modal", data-target="#coverUpdateModal")
+                                svg.bi.bi-camera(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z' fill="#565a5e")
+                                    path(d='M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z' fill="#565a5e")
+                            
+                    .profileAvatar
+                        img(src=userAvatarSrc, alt="")
+
+                        if profileUser.username === user.username
+                            button.uploadImg(data-toggle="modal", data-target="#avatarUpdateModal")
+                                svg.bi.bi-camera(xmlns='http://www.w3.org/2000/svg', width='22', height='22', fill='currentColor', viewbox='0 0 16 16')
+                                    path(d='M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z' fill="#565a5e")
+                                    path(d='M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z' fill="#565a5e")
+
+
+
+
+                .profileAction 
+                    if profileUser.username !== user.username 
+                        a.message
+                            svg.bi.bi-envelope(xmlns='http://www.w3.org/2000/svg', width='18', height='18', fill='currentColor', viewbox='0 0 16 16')
+                                path( fill="#EFF3F4" d='M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z')
+                        - isFollowing = profileUser.followers && profileUser.followers.includes(user._id.toString())
+                        button(onclick=`followHandler(event,"${profileUser._id}")`).follow #{isFollowing ? 'Following' : 'Follow'} 
+ 
+                    else 
+                        button.editProfile Edit Profile
+                      
+                .profileDetails 
+                    h4.fullName #{profileUser.firstName} #{profileUser.lastName}
+
+                    h6.username  @#{profileUser.username}
+
+                    .social-follower 
+                        a.following(href="/profile/" + profileUser.username + "/following") 
+                            span.value #{profileUser.following.length || 0}  
+                            | Following
+
+                        a.followers(href="/profile/" + profileUser.username + "/followers") 
+                            span.value #{profileUser.followers.length || 0} 
+                            | Followers
+
+
+                .tabs_container
+                    a.tweets_tab(class=tab === 'posts' ? 'active' : '' href=`/profile/`+ profileUser.username) 
+                        button Tweets
+
+                    a.replies_tab(class=tab === 'replies' ? 'active' : '' href=`/profile/`+ profileUser.username + '/replies/') 
+                        button Replies
+
+
+                .tweetContainer
+
+            else 
+                h4.empty_content User Not Found 
+            
+        .right_side 
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js") 
+    script.
+        const user = !{userJs}
+        const userProfile = !{profileUserStringData}
+        const tab = '!{tab}'

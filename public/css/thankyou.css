@@ -1,0 +1,47 @@
+.thankyou_container {
+  background-color: #282a35;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thankYouImg img {
+  width: 400px;
+  height: 175px;
+}
+.thankYouImg img .thankImg {
+  width: 100%;
+  height: 100%;
+}
+
+.congrats_text h3 {
+  font-weight: 800;
+  color: #0bcf83;
+  font-size: 28px;
+}
+
+.confirmation_header p {
+  text-align: center;
+  color: white;
+}
+.confirmation_header p span {
+  color: #0bcf83;
+}
+
+button.submit {
+  width: 200px;
+  height: 50px;
+  border-radius: 4px;
+  background: #1d9bf0;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+button.submit a {
+  text-decoration: none;
+  color: white;
+  letter-spacing: 3px;
+}

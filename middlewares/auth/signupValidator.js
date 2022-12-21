@@ -1,82 +1,80 @@
-// Dependencies
+//dependencies
 const { check } = require("express-validator");
-const User = require("../../models/User");
+const User = require("../../models/auth/UserModel");
 
-const signupDataValidator = () => {
+//validate all fields with express-validator
+function signupValidator() {
   return [
-    // first name
-    check("firstName").trim().notEmpty().withMessage("First name is required!"),
+    //first name
+    check("firstName").trim().notEmpty().withMessage("First Name Is required"),
 
-    // last name
-    check("lastName").trim().notEmpty().withMessage("Last name is required!"),
+    //last name
+    check("lastName").trim().notEmpty().withMessage("Last Name Is Required"),
 
-    // user name
-    check("userName")
+    //user name
+    check("username")
       .trim()
       .notEmpty()
+      .withMessage("User Name Is Required")
       .toLowerCase()
-      .withMessage("User name is required!")
-      .custom(async (val, { req }) => {
-        try {
-          const user = await User.findOne({ userName: val }, { userName: 1 });
-          if (user) {
-            return Promise.reject();
-          } else {
-            return Promise.resolve;
-          }
-        } catch (error) {
-          throw error;
+      .isLength({ min: 3 })
+      .withMessage("Min Three Character Required")
+      .custom(async (value, { req }) => {
+        let user = await User.findOne({ username: value }, { username: 1 });
+        if (user) {
+          return Promise.reject();
+        } else {
+          return Promise.resolve();
         }
       })
-      .isLength({ min: 3 })
-      .withMessage("userName should have minimum 3 characters!"),
+      .withMessage("User Name already in use"),
 
-    // email
+    //email
     check("email")
       .trim()
-      .toLowerCase()
       .notEmpty()
-      .withMessage("Email is required!")
+      .withMessage("Email Is Required")
+      .toLowerCase()
       .isEmail()
-      .withMessage("Email is invalid!")
-      .custom(async (val, { req }) => {
+      .withMessage("Invalid Email")
+      .custom(async (value, { req }) => {
         try {
-          const user = await User.findOne({ email: val }, { email: 1 });
+          const user = await User.findOne({ email: value }, { email: 1 });
           if (user) {
             return Promise.reject();
           } else {
-            return Promise.resolve;
+            return Promise.resolve();
           }
         } catch (error) {
           throw error;
         }
       })
-      .withMessage("Email already used!"),
+      .withMessage("Email already in use"),
 
-    // password
+    //password
     check("password")
       .notEmpty()
-      .withMessage("Password is required!")
+      .withMessage("Password is required")
       .isStrongPassword()
-      .withMessage("Password should be strong!"),
+      .withMessage("Password is not strong"),
 
-    // confirm password
-    check("confirmPassword")
+    //confirm password
+    check("confirmpassword")
       .notEmpty()
-      .withMessage("confirm Password is required!")
+      .withMessage("Password is required")
       .isStrongPassword()
-      .withMessage("confirm Password should be strong!")
-      .custom((val, { req }) => {
-        const pass = req.body.password;
-        // matching password with confirm password field
-        if (val === pass) {
-          return true;
-        } else {
+      .withMessage("Password is not strong")
+      .custom((value, { req }) => {
+        const password = req.body.password;
+        if (value !== password) {
           return false;
+        } else {
+          return true;
         }
       })
-      .withMessage("Password doesn't match!"),
+      .withMessage("Password doesn't match"),
   ];
-};
+}
 
-module.exports = signupDataValidator;
+//export signupValidator
+module.exports = signupValidator;

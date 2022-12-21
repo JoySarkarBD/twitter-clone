@@ -1,0 +1,314 @@
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+}
+
+#main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* middle_side */
+.middle_side .top_heading_section {
+  display: flex;
+  height: 50px;
+  border-bottom: 1px solid #2f3336;
+  padding: 15px;
+  z-index: 3;
+  position: fixed;
+  background: #010507;
+  align-items: center;
+  width: 602px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+}
+.middle_side .top_heading_section h4 {
+  color: #e7e9ea;
+  margin-left: 5px;
+  font-size: 19px;
+}
+.middle_side .profile_heading_container {
+  width: 100%;
+  height: 250px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+  position: relative;
+}
+.middle_side .profile_heading_container .coverImage {
+  width: 600px;
+  height: 300px;
+  margin-top: 50px;
+  cursor: pointer;
+}
+.middle_side .profile_heading_container .coverImage img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.middle_side .profile_heading_container .coverImage button.uploadCoverImg {
+  display: none;
+}
+.middle_side .profile_heading_container .coverImage:hover button.uploadCoverImg {
+  display: block;
+  position: absolute;
+  right: 4%;
+  bottom: -32px;
+  width: 60px;
+  height: 37px;
+  border-radius: 5px;
+  background: #000;
+}
+.middle_side .profile_heading_container .profileAvatar {
+  position: absolute;
+  width: 170px;
+  cursor: pointer;
+  top: 82%;
+  left: 4%;
+}
+.middle_side .profile_heading_container .profileAvatar img {
+  width: 100%;
+  height: 170px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #000;
+}
+.middle_side .profile_heading_container .profileAvatar button.uploadImg {
+  display: none;
+}
+.middle_side .profile_heading_container .profileAvatar:hover button.uploadImg {
+  display: block;
+  position: absolute;
+  top: 63%;
+  right: 0%;
+  width: 45px;
+  height: 45px;
+  border: 2px solid #565a5e;
+  outline: 0;
+  border-radius: 50%;
+  background: #000;
+}
+.middle_side .profileAction {
+  padding-top: 73px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+}
+.middle_side .profileAction button.editProfile {
+  background: transparent;
+  color: #eff3f4;
+  border: 1px solid #eff3f4;
+  margin-right: 10px;
+  width: 120px;
+  border-radius: 25px;
+  height: 40px;
+}
+.middle_side .profileAction a.message {
+  margin-right: 10px;
+  border: 1px solid #eff3f4;
+  border-radius: 50%;
+  padding: 8px 11px;
+}
+.middle_side .profileAction button.follow {
+  background: #eff3f4;
+  color: #2f3336;
+  border: 1px solid #eff3f4;
+  margin-right: 10px;
+  width: 120px;
+  border-radius: 25px;
+  height: 40px;
+}
+.middle_side .profileAction button.follow.active {
+  background: transparent;
+  border: 1px solid #eff3f4;
+  color: #eff3f4;
+}
+.middle_side .profileDetails {
+  padding-top: 28px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+  padding-left: 10px;
+}
+.middle_side .profileDetails h4.fullName {
+  color: #eff3f4;
+}
+.middle_side .profileDetails h6.username {
+  margin-top: 5px;
+  color: #565a5e;
+}
+.middle_side .profileDetails .social-follower {
+  margin-top: 8px;
+}
+.middle_side .profileDetails .social-follower a.following {
+  color: #565a5e;
+  margin-right: 20px;
+}
+.middle_side .profileDetails .social-follower a.following span {
+  color: #eff3f4;
+}
+.middle_side .profileDetails .social-follower a.followers {
+  color: #565a5e;
+  margin-right: 20px;
+}
+.middle_side .profileDetails .social-follower a.followers span {
+  color: #eff3f4;
+}
+.middle_side .tabs_container {
+  padding-top: 20px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+  border-bottom: 1px solid #2f3336;
+  display: flex;
+  justify-content: space-around;
+}
+.middle_side .tabs_container a.tweets_tab button {
+  color: #565a5e;
+  background: transparent;
+  width: 250px;
+  height: 35px;
+  transition: 0.5s;
+}
+.middle_side .tabs_container a.tweets_tab button:hover {
+  background: #181818;
+  border-bottom: 2px solid #1d9bf0;
+  color: #eff3f4;
+}
+.middle_side .tabs_container a.tweets_tab.active {
+  border-bottom: 2px solid #1d9bf0;
+}
+.middle_side .tabs_container a.tweets_tab.active button {
+  color: #eff3f4;
+}
+.middle_side .tabs_container a.replies_tab button {
+  color: #565a5e;
+  background: transparent;
+  width: 250px;
+  height: 35px;
+  transition: 0.5s;
+}
+.middle_side .tabs_container a.replies_tab button:hover {
+  background: #181818;
+  border-bottom: 2px solid #1d9bf0;
+  color: #eff3f4;
+}
+.middle_side .tabs_container a.replies_tab.active {
+  border-bottom: 2px solid #1d9bf0;
+}
+.middle_side .tabs_container a.replies_tab.active button {
+  color: #eff3f4;
+}
+.middle_side .profileTweetContainer {
+  height: 100%;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+}
+.middle_side .profileTweetContainer .follow {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity {
+  display: flex;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity .avatar {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity .avatar img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  height: 100%;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity .displayName {
+  margin-left: 10px;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity .displayName a h5 {
+  color: #eff3f4;
+}
+.middle_side .profileTweetContainer .follow .socialConnectivity .displayName span {
+  color: #565a5e;
+}
+.middle_side .profileTweetContainer .follow .followBtn {
+  margin-right: 25px;
+}
+.middle_side .profileTweetContainer .follow .followBtn button#followBtn {
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 50px;
+  padding: 5px 50px;
+  border-radius: 28px;
+  background: #eff3f4;
+  border: 1px solid #eff3f4;
+  color: #2f3336;
+}
+.middle_side .profileTweetContainer .follow .followBtn button#followBtn.follow.active {
+  background: transparent;
+  border: 1px solid #eff3f4;
+  color: #eff3f4;
+}
+
+/* avatar update modal */
+div#avatarUpdateModal,
+div#coverUpdateModal {
+  background: rgba(91, 112, 131, 0.4);
+}
+
+div#avatarPrevieContainer {
+  margin-top: 5px;
+}
+div#avatarPrevieContainer img#avatarPreview {
+  border-radius: 5px;
+  display: block;
+  max-width: 100%;
+  margin-top: 5px;
+}
+
+div#CoverPrevieContainer {
+  margin-top: 5px;
+}
+div#CoverPrevieContainer img#CoverPreview {
+  border-radius: 5px;
+  display: block;
+  max-width: 100%;
+  margin-top: 5px;
+}
+
+button.button-Close {
+  padding: 1px 18px;
+  border: none;
+  outline: none;
+  color: white;
+  border-radius: 5px;
+  background: black;
+}

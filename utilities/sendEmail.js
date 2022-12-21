@@ -1,30 +1,35 @@
-// dependencies
+//dependencies
 const createHttpError = require("http-errors");
-const nodeMailer = require("nodemailer");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const sendEmail = async (receivers, data, cb) => {
+//create nodemailer function
+const sendemail = async (receiver, data, cb) => {
   try {
-    // sending mail
-    const transporter = nodeMailer.createTransport({
+    //transporter
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PWD,
       },
     });
+
     //options
     const options = {
       from: process.env.EMAIL,
-      to: receivers.join(","),
+      to: receiver.join(","),
       subject: data.subject,
       html: data.template,
-      attachments: data.attachments,
+      attachment: data.attachment,
     };
+
+    //send email via transporter
     transporter.sendMail(options, cb);
   } catch (error) {
-    next(createHttpError("Internal server error!"));
+    next(createHttpError(500, "Internal server error"));
   }
 };
 
-module.exports = sendEmail;
+//export  send email function
+module.exports = sendemail;

@@ -1,0 +1,43 @@
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+}
+
+#main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* middle section */
+.middle_side .top_heading_section {
+  display: flex;
+  padding: 15px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+}
+.middle_side .top_heading_section h4 {
+  margin-left: 10px;
+  color: #ced0d1;
+}

@@ -1,25 +1,26 @@
 extends ./../../layouts/header.pug
-
-
-block title
+//- title
+block title 
     title= title
 
+//- css link
 block cssLink
-    link(rel="stylesheet", href="/css/thankyou.min.css")
+    link(rel="stylesheet", href="/css/thankyou.css")
 
+//- script added 
+block jsScript
+    script(src="/js/thankyou.js" defer)
 
-block bodyContent 
-    main 
-        .confirmation_section
-            .confirmation_image.text-center 
-                img(src="/assets/thankyou.png", alt="")
+block bodyContent
+    .thankyou_container
+        .thankYouImg 
+            img.thankImg(src="/assets/thank-you.png", alt="")
+        .text-center.my-4.congrats_text
+            h3  Congratulations
+        .confirmation_header
+            p Hello, #{name} Your account was verified successfully. Now you are a verified user and cam sign in with your credentials.
+                
 
-            .px-4.text-center.text-primary
-                h5 Your account was verified successfully.
-
-            .w-10.text-center.text-secondary
-                p Now you are a verified user and cam sign in with your credentials.
-
-            .submit_btn.text-center 
-                button#submit.submit(type='submit')
-                    a(href='/signin') Go to Sign In page 
+        .submitBtn 
+              button#submit.submit(type="submit")
+                a(href="/login") LOGIN

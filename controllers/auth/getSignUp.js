@@ -1,10 +1,12 @@
-// Get Sign Up Page
-const getSignUp = (req, res, next) => {
+/* signup page handler */
+const signupHandler = (req, res, next) => {
   try {
-    res.render("pages/signup", { error: {}, user: {} });
+    res.render("pages/signup", {
+      user: {},
+      error: {},
+    });
   } catch (error) {
     next(error);
   }
 };
-
-module.exports = getSignUp;
+module.exports = signupHandler;

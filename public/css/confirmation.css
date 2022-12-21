@@ -1,0 +1,33 @@
+.confirmation_container {
+  background-color: #282a35;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation_img {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.congrats_text h3 {
+  font-weight: 800;
+  color: #0bcf83;
+  font-size: 28px;
+}
+
+.confirmation_header p {
+  text-align: center;
+  color: white;
+}
+.confirmation_header p span {
+  color: #0bcf83;
+}
+
+.confirmation_text p {
+  text-align: center;
+  color: white;
+}

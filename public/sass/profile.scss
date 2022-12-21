@@ -1,143 +1,368 @@
-.profile_header_container {
+$backgroundColor: #ddd;
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+}
+
+#main {
+  max-width: 1200px;
   width: 100%;
-  height: 200px;
-  position: relative;
-
-  .cover_image {
-    background-color: #1d9bf0;
-    cursor: pointer;
-    img {
-      width: 100%;
-      height: 200px;
-    }
-  }
-
-  .profile_avatar img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    position: absolute;
-    top: 126px;
-    left: 10px;
-    cursor: pointer;
-
-    img {
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-.profile_actions {
-  a {
-    svg {
-      fill: black;
-    }
-  }
+  margin: 0 auto;
+  height: 100vh;
   display: flex;
-  justify-content: flex-end;
-
-  button.edit_profile {
-    margin-top: 15px;
-    width: 120px;
-    height: 40px;
-    border-radius: 25px;
-    background: transparent;
-    color: black;
-    margin-right: 10px;
-    &:hover {
-      background-color: #e7e7e8;
-    }
-  }
-
-  button.follow_btn {
-    margin-top: 15px;
-    width: 120px;
-    height: 40px;
-    border-radius: 25px;
-    background: transparent;
-    color: black;
-    margin-right: 10px;
-    &:hover {
-      background-color: #e7e7e8;
-    }
-  }
+  justify-content: space-between;
 }
 
-.profile_details {
-  padding-top: 25px;
+/* middle_side */
+.middle_side {
+  .top_heading_section {
+    display: flex;
+    height: 50px;
+    border-bottom: 1px solid #2f3336;
+    padding: 15px;
+    z-index: 3;
+    position: fixed;
+    background: #010507;
+    align-items: center;
+    width: 602px;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
 
-  h4.pro_fullName {
-    color: black;
-    margin-left: 10px;
-  }
-
-  h6.pro_userName {
-    color: #565a5e;
-    margin-left: 10px;
-  }
-}
-
-.social_influences {
-  margin-top: 20px;
-  margin-left: 10px;
-
-  a.following {
-    color: #565a5e;
-    margin-right: 25px;
-    text-decoration: none;
-
-    span {
-      color: black;
-      font-weight: 700;
+    h4 {
+      color: #e7e9ea;
+      margin-left: 5px;
+      font-size: 19px;
     }
   }
 
-  a.followers {
-    color: #565a5e;
-    margin-right: 25px;
-    text-decoration: none;
-    span {
-      color: black;
-      font-weight: 700;
+  .profile_heading_container {
+    width: 100%;
+    height: 250px;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
+    position: relative;
+
+    .coverImage {
+      width: 600px;
+      height: 300px;
+      margin-top: 50px;
+
+      cursor: pointer;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      button.uploadCoverImg {
+        display: none;
+      }
+
+      &:hover {
+        button.uploadCoverImg {
+          display: block;
+          position: absolute;
+          right: 4%;
+          bottom: -32px;
+          width: 60px;
+          height: 37px;
+          border-radius: 5px;
+          background: #000;
+        }
+      }
+    }
+
+    .profileAvatar {
+      position: absolute;
+      width: 170px;
+      cursor: pointer;
+      top: 82%;
+      left: 4%;
+
+      img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #000;
+      }
+
+      button.uploadImg {
+        display: none;
+      }
+
+      &:hover {
+        button.uploadImg {
+          display: block;
+          position: absolute;
+          top: 63%;
+          right: 0%;
+          width: 45px;
+          height: 45px;
+          border: 2px solid #565a5e;
+          outline: 0;
+          border-radius: 50%;
+          background: #000;
+        }
+      }
     }
   }
-}
 
-.tabs_container {
-  padding-top: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  text-align: center;
+  .profileAction {
+    padding-top: 73px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
 
-  a.tweets_tab {
-    &:hover {
-      background: #e7e7e8;
-    }
-
-    button {
+    button.editProfile {
       background: transparent;
-      color: black;
-      transition: 0.5s;
-      height: 35px;
-      border: none;
+      color: #eff3f4;
+      border: 1px solid #eff3f4;
+      margin-right: 10px;
+      width: 120px;
+      border-radius: 25px;
+      height: 40px;
+    }
+
+    a.message {
+      margin-right: 10px;
+      border: 1px solid #eff3f4;
+      border-radius: 50%;
+      padding: 8px 11px;
+    }
+
+    button.follow {
+      background: #eff3f4;
+      color: #2f3336;
+      border: 1px solid #eff3f4;
+      margin-right: 10px;
+      width: 120px;
+      border-radius: 25px;
+      height: 40px;
+    }
+
+    button.follow.active {
+      background: transparent;
+      border: 1px solid #eff3f4;
+      color: #eff3f4;
     }
   }
 
-  a.replies_tab {
-    &:hover {
-      background: #e7e7e8;
+  .profileDetails {
+    padding-top: 28px;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
+    padding-left: 10px;
+
+    h4.fullName {
+      color: #eff3f4;
     }
-    button {
-      background: transparent;
-      color: black;
-      transition: 0.5s;
-      height: 35px;
-      border: none;
+
+    h6.username {
+      margin-top: 5px;
+      color: #565a5e;
+    }
+
+    .social-follower {
+      margin-top: 8px;
+
+      a.following {
+        color: #565a5e;
+        margin-right: 20px;
+
+        span {
+          color: #eff3f4;
+        }
+      }
+
+      a.followers {
+        color: #565a5e;
+        margin-right: 20px;
+
+        span {
+          color: #eff3f4;
+        }
+      }
+    }
+  }
+
+  .tabs_container {
+    padding-top: 20px;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
+    border-bottom: 1px solid #2f3336;
+    display: flex;
+    justify-content: space-around;
+
+    a.tweets_tab {
+      button {
+        color: #565a5e;
+        background: transparent;
+        width: 250px;
+        height: 35px;
+        transition: 0.5s;
+
+        &:hover {
+          background: #181818;
+          border-bottom: 2px solid #1d9bf0;
+          color: #eff3f4;
+        }
+      }
+    }
+
+    a.tweets_tab.active {
+      border-bottom: 2px solid #1d9bf0;
+      button {
+        color: #eff3f4;
+      }
+    }
+
+    a.replies_tab {
+      button {
+        color: #565a5e;
+        background: transparent;
+        width: 250px;
+        height: 35px;
+        transition: 0.5s;
+
+        &:hover {
+          background: #181818;
+          border-bottom: 2px solid #1d9bf0;
+          color: #eff3f4;
+        }
+      }
+    }
+
+    a.replies_tab.active {
+      border-bottom: 2px solid #1d9bf0;
+      button {
+        color: #eff3f4;
+      }
+    }
+  }
+
+  .profileTweetContainer {
+    height: 100%;
+    border-left: 1px solid #2f3336;
+    border-right: 1px solid #2f3336;
+
+    .follow {
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      .socialConnectivity {
+        display: flex;
+
+        .avatar {
+          width: 50px;
+          height: 50px;
+          margin-left: 5px;
+
+          img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            height: 100%;
+          }
+        }
+
+        .displayName {
+          margin-left: 10px;
+
+          a {
+            h5 {
+              color: #eff3f4;
+            }
+          }
+
+          span {
+            color: #565a5e;
+          }
+        }
+      }
+
+      .followBtn {
+        margin-right: 25px;
+
+        button#followBtn {
+          width: 150px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          height: 50px;
+          padding: 5px 50px;
+          border-radius: 28px;
+          background: #eff3f4;
+          border: 1px solid #eff3f4;
+          color: #2f3336;
+        }
+
+        button#followBtn.follow.active {
+          background: transparent;
+          border: 1px solid #eff3f4;
+          color: #eff3f4;
+        }
+      }
     }
   }
 }
 
-.active_tabs {
-  border-bottom: 3px solid #1d9bf0;
+/* avatar update modal */
+
+div#avatarUpdateModal,
+div#coverUpdateModal {
+  background: rgba(91, 112, 131, 0.4);
+}
+
+div#avatarPrevieContainer {
+  margin-top: 5px;
+  img#avatarPreview {
+    border-radius: 5px;
+    display: block;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+div#CoverPrevieContainer {
+  margin-top: 5px;
+  img#CoverPreview {
+    border-radius: 5px;
+    display: block;
+    max-width: 100%;
+    margin-top: 5px;
+  }
+}
+
+button.button-Close {
+  padding: 1px 18px;
+  border: none;
+  outline: none;
+  color: white;
+  border-radius: 5px;
+  background: black;
 }
