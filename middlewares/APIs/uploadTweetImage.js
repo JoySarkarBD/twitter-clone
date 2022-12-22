@@ -12,12 +12,12 @@ const uploadTweetImage = (req, res, next) => {
     );
 
     // return;
-    const max_file_size = 1000000;
+    const max_file_size = 100000000;
     const allowed_file_mime_type = ["image/png", "image/jpg", "image/jpeg"];
     upload(upload_dir, max_file_size, allowed_file_mime_type).any()(
       req,
       res,
-      err => {
+      (err) => {
         if (err) {
           next(err);
         } else {
