@@ -15,15 +15,15 @@ let cropper;
 
 /* image cropped function */
 
-function imgUploader(imgInputHandler, ratio, imgTag) {
+function imgUploader(imgInputHandler, imgRation, imgTagName) {
   imgInputHandler.addEventListener("change", function (e) {
     const imageFile = this.files[0];
     if (this.files && imageFile) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        imgTag.src = this.result;
-        cropper = new Cropper(imgTag, {
-          aspectRatio: ratio,
+        imgTagName.src = this.result;
+        cropper = new Cropper(imgTagName, {
+          aspectRatio: imgRation,
           background: false,
         });
       };
@@ -36,12 +36,12 @@ imgUploader(imageInput, `1/1`, avatarImgTagEl);
 imgUploader(coverImgInput, `16/9`, coverImgTagEl);
 // 16/9
 
-/* upload image */
+/* upload new cropped profile image */
 uploadProfileImgBtn.addEventListener("click", function (e) {
   const fileName = imageInput?.files[0]?.name || `profileAvatar.png`;
   const canvas = cropper?.getCroppedCanvas();
   if (canvas) {
-    canvas.toBlob(blob => {
+    canvas.toBlob((blob) => {
       const formData = new FormData();
       formData.append("avatar", blob, fileName);
 
@@ -50,8 +50,8 @@ uploadProfileImgBtn.addEventListener("click", function (e) {
         method: "POST",
         body: formData,
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data._id) {
             window.location.reload();
           } else {
@@ -64,14 +64,14 @@ uploadProfileImgBtn.addEventListener("click", function (e) {
   }
 });
 
-/* upload cover image*/
+/* upload new cropped cover image*/
 
 uploadCoverImgBtn.addEventListener("click", function (e) {
   const coverImgFileName = coverImgInput?.files[0]?.name;
 
   const canvas = cropper.getCroppedCanvas();
   if (canvas) {
-    canvas.toBlob(blob => {
+    canvas.toBlob((blob) => {
       const formData = new FormData();
       formData.append("coverPhoto", blob, coverImgFileName);
       const url = `${window.location.origin}/profile/coverphoto`;
@@ -79,13 +79,13 @@ uploadCoverImgBtn.addEventListener("click", function (e) {
         method: "POST",
         body: formData,
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data._id) {
             window.location.reload();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     });

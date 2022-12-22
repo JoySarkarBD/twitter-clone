@@ -8,6 +8,8 @@ const {
   updateOrSetdata,
 } = require("../../utilities/cacheManager");
 const postPopulate = require("../../utilities/postPopulat");
+const fs = require("fs");
+const path = require("path");
 
 const deletePost = async (req, res, next) => {
   try {
@@ -66,7 +68,7 @@ const deletePost = async (req, res, next) => {
 
     /* delete retweet post on user model */
     if (deletedPost?.retweetUsers.length) {
-      deletedPost?.retweetUsers.forEach(async userId => {
+      deletedPost?.retweetUsers.forEach(async (userId) => {
         const retweetUser = await User.findOneAndUpdate(
           { _id: userId },
           { $pull: { retweetPost: deletedPost._id } },
@@ -76,9 +78,22 @@ const deletePost = async (req, res, next) => {
       });
     }
 
+    /* delete all replies of main tweets */
+    /*   if (deletedPost?.replyPosts.length) {
+      deletedPost?.replyPosts.forEach(async (replyId) => {
+        const deleteReplyPosts = await Tweet.findOneAndDelete(
+          {
+            _id: replyId,
+          },
+          { new: true }
+        );
+        await deleteCache(`posts:${deleteReplyPosts}`);
+      });
+    } */
+
     /* delete all user on retweeted post */
     if (deletedPost?.retweetUsers.length) {
-      deletedPost?.retweetUsers.forEach(async userId => {
+      deletedPost?.retweetUsers.forEach(async (userId) => {
         const deletedRetweetedpost = await Tweet.findOneAndDelete(
           {
             postData: deletedPost._id,
@@ -92,7 +107,7 @@ const deletePost = async (req, res, next) => {
 
     /* delete "like" from deleted post and update user modal */
     if (deletedPost?.likes.length) {
-      deletedPost?.likes.forEach(async userId => {
+      deletedPost?.likes.forEach(async (userId) => {
         const user = await User.findOneAndUpdate(
           { _id: userId },
           { $pull: { likes: deletedPost._id } },
@@ -101,6 +116,17 @@ const deletePost = async (req, res, next) => {
         await updateOrSetdata(`users:${user._id}`, user);
       });
     }
+
+    /* delete tweet img files from file system*/
+    deletedPost.tweetImages.forEach((imgs) => {
+      fs.unlinkSync(
+        path.join(
+          __dirname,
+          `./../../public/uploads/${deletedPost?.tweetedBy._id}/tweets/${imgs}`
+        )
+      );
+    });
+
     res.json(deletedPost);
   } catch (error) {
     throw error;

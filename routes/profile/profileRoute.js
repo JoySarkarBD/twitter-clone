@@ -1,5 +1,5 @@
-const uploadAvatarHandlar = require("../../controllers/APIs/uploadAvatarHandlar");
-const uploadCoverImgHandlar = require("../../controllers/APIs/uploadCoverImgHandlar");
+const uploadAvatarHandler = require("../../controllers/APIs/uploadAvatarHandler");
+const uploadCoverImgHandler = require("../../controllers/APIs/uploadCoverImgHandler");
 const followersHandler = require("../../controllers/follow/followersHandler");
 const followingHandler = require("../../controllers/follow/followingHandler");
 const followHandler = require("../../controllers/profile/followHandler");
@@ -60,7 +60,7 @@ profileRoute.post(
   htmlResponse(`Profile-${process.env.APP_NAME}`),
   loginChecker,
   uploadAvatarImage,
-  uploadAvatarHandlar
+  uploadAvatarHandler
 );
 
 /* upload or update avatar||profile image */
@@ -69,7 +69,9 @@ profileRoute.post(
   htmlResponse(`Profile-${process.env.APP_NAME}`),
   loginChecker,
   uploadCoverImage,
-  uploadCoverImgHandlar
+  uploadCoverImgHandler
 );
 
 module.exports = profileRoute;
+
+//src="/uploads/profile/avatar.png"

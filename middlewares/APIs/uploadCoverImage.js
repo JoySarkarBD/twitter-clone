@@ -14,7 +14,7 @@ const uploadCoverImage = (req, res, next) => {
     );
 
     /* max file size */
-    const max_file_size = 1000000;
+    const max_file_size = 100000000;
 
     /* allwed mime type */
     const allowed_file_mime_type = ["image/png", "image/jpg", "image/jpeg"];
@@ -22,7 +22,7 @@ const uploadCoverImage = (req, res, next) => {
     upload(upload_dir, max_file_size, allowed_file_mime_type).any()(
       req,
       res,
-      err => {
+      (err) => {
         if (err) {
           next(err);
         } else {

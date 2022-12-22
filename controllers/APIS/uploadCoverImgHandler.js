@@ -4,7 +4,7 @@ const createHttpError = require("http-errors");
 const User = require("../../models/auth/UserModel");
 const { updateOrSetdata } = require("../../utilities/cacheManager");
 
-async function uploadCoverImgHandlar(req, res, next) {
+async function uploadCoverImgHandler(req, res, next) {
   try {
     const userId = req._id;
     const coverPhotoName = req.files[0].filename;
@@ -23,4 +23,4 @@ async function uploadCoverImgHandlar(req, res, next) {
 }
 
 /* export */
-module.exports = uploadCoverImgHandlar;
+module.exports = uploadCoverImgHandler;

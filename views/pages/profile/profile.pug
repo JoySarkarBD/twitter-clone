@@ -21,7 +21,9 @@ block bodyContent
     
     -userAvatarSrc = profileUser.profileAvatar ? `/uploads/${profileUser._id}/profile/${profileUser.profileAvatar}` : `/uploads/profile/profileAvatar.png`
 
-    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replayModalTitle',          aria-hidden='true')
+    -coverImageSrc = user.coverPhoto?`/uploads/${user._id}/coverPhoto/${user.coverPhoto}`:"/uploads/profile/avatar.png"
+
+    #replyModal.modal.fade(tabindex='-1', aria-labelledby='replayModalTitle', aria-hidden='true')
         .modal-dialog
             .modal-content
                 .modal-header
@@ -205,7 +207,7 @@ block bodyContent
                 .profile_heading_container 
 
                     .coverImage 
-                        img(src="/uploads/profile/avatar.png", alt="")
+                        img(src=coverImageSrc, alt="")
 
                         if profileUser.username === user.username
                             button.uploadCoverImg(data-toggle="modal", data-target="#coverUpdateModal")

@@ -9,7 +9,7 @@ async function loadPostOrReplies() {
   const result = await fetch(url);
   const posts = await result.json();
 
-  posts.forEach(post => {
+  posts.forEach((post) => {
     const tweetEl = createTweet(post);
     tweetContainer.insertAdjacentElement("afterbegin", tweetEl);
   });

@@ -6,7 +6,7 @@ const { updateOrSetdata } = require("../../utilities/cacheManager");
 
 /* create upload Avatar Handlar func */
 
-const uploadAvatarHandlar = async (req, res, next) => {
+const uploadAvatarHandler = async (req, res, next) => {
   try {
     const userId = req._id;
     const imgFileName = req.files[0].filename;
@@ -15,12 +15,14 @@ const uploadAvatarHandlar = async (req, res, next) => {
       { profileAvatar: imgFileName },
       { new: true }
     );
+    // return console.log(user);
     updateOrSetdata(`users:${user._id}`, user);
     res.json(user);
   } catch (error) {
+    // console.log(error);
     next(createHttpError(500, "Internal Server Error"));
   }
 };
 
 /* export func */
-module.exports = uploadAvatarHandlar;
+module.exports = uploadAvatarHandler;

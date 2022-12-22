@@ -33,7 +33,7 @@ option.addEventListener("click", function (e) {
 
 //middle & right side modal closing function
 
-[middleSide, rightSide].forEach(el => {
+[middleSide, rightSide].forEach((el) => {
   el.addEventListener("click", function (e) {
     if (this.className === "middle_side") {
       if (!modal.hidden) {
@@ -81,7 +81,7 @@ replyContent.addEventListener("input", function (e) {
 
 imgFile.addEventListener("change", function (e) {
   tweet_btn.removeAttribute("disabled");
-  [...this.files].forEach(file => {
+  [...this.files].forEach((file) => {
     if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) return;
     postImages.push(file);
     const reader = new FileReader();
@@ -105,7 +105,7 @@ imgFile.addEventListener("change", function (e) {
 
 replyImgFile.addEventListener("change", function (e) {
   replyBtn.removeAttribute("disabled");
-  [...this.files].forEach(file => {
+  [...this.files].forEach((file) => {
     if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) return;
     replyImages.push(file);
     const reader = new FileReader();
@@ -169,7 +169,7 @@ tweetPost.addEventListener("click", function (e) {
     const data = new FormData();
     data.append("content", content);
 
-    postImages.forEach(file => {
+    postImages.forEach((file) => {
       data.append(file.name, file);
     });
 
@@ -177,8 +177,8 @@ tweetPost.addEventListener("click", function (e) {
       method: "POST",
       body: data,
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const postEl = createTweet(data);
         tweetContainer.insertAdjacentElement("afterbegin", postEl);
         tweet_content.value = "";
@@ -186,7 +186,7 @@ tweetPost.addEventListener("click", function (e) {
         postImages = [];
         tweet_btn.setAttribute("disabled", true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   } else {
@@ -199,7 +199,7 @@ tweetPost.addEventListener("click", function (e) {
 const loadPosts = async () => {
   const data = await fetch(`${window.location.origin}/posts`);
   const posts = await data.json();
-  posts.forEach(post => {
+  posts.forEach((post) => {
     const postEl = createTweet(post);
     tweetContainer.insertAdjacentElement("afterbegin", postEl);
   });
@@ -361,7 +361,7 @@ function createTweet(tweetObj) {
   `;
   const imgContainer = postContainer.querySelector("div.images");
 
-  tweetImages.forEach(img => {
+  tweetImages.forEach((img) => {
     const imgDiv = document.createElement("div");
     imgDiv.classList.add("postImg");
     imgDiv.innerHTML = `<img src="${window.location.origin}/uploads/${_id}/tweets/${img}" alt=""/>`;
@@ -379,8 +379,8 @@ function likePost(event, postId) {
   fetch(url, {
     method: "PUT",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       const post = data.post;
       const userId = data.user._id;
       if (post.likes.includes(userId)) {
@@ -401,8 +401,8 @@ function retweetPosts(event, postId) {
   fetch(url, {
     method: "POST",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data) {
         window.location.reload();
       }
@@ -429,7 +429,7 @@ function tweetReply(event, postId) {
 
     const formData = new FormData();
     formData.append("content", content);
-    replyImages.forEach(file => {
+    replyImages.forEach((file) => {
       formData.append(file.name, file);
     });
 
@@ -438,13 +438,13 @@ function tweetReply(event, postId) {
       method: "POST",
       body: formData,
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data) {
           window.location.reload();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   });
@@ -480,21 +480,21 @@ function deletePost(postId) {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Yes, delete it!",
-  }).then(result => {
+  }).then((result) => {
     if (result.isConfirmed) {
       const url = `${window.location.origin}/posts/${postId}`;
       fetch(url, {
         method: "DELETE",
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data) {
             window.location.reload();
           } else {
             window.location.href = `/`;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
