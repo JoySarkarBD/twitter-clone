@@ -30,6 +30,8 @@ async function updateOrSetdata(key, value) {
     console.log(error);
   }
 }
+
+/* delete cache */
 async function deleteCache(key) {
   try {
     await redisClient.del(key);

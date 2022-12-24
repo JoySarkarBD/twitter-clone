@@ -24,7 +24,6 @@ const uploadAvatarImage = (req, res, next) => {
       res,
       (err) => {
         if (err) {
-          console.log(err);
           next(err);
         } else {
           next();

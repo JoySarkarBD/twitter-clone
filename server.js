@@ -24,12 +24,16 @@ const tweetRoute = require("./routes/APIs/tweetPost");
 const { redisClient } = require("./utilities/cacheManager");
 const singlePost = require("./routes/APIs/singlePost");
 const profileRoute = require("./routes/profile/profileRoute");
+const searchRoute = require("./routes/search/searchRoute");
+const userRoute = require("./routes/users/userRoute");
 
 /* middleware */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser(process.env.COOKIE_SECRETE));
+
+/* route  start ================*/
 
 /* auth route */
 app.use(authRoute);
@@ -40,11 +44,19 @@ app.use("/posts", tweetRoute);
 /* profile route */
 app.use("/profile", profileRoute);
 
+/* search route */
+app.use("/search", searchRoute);
+
+/* get all users */
+app.use("/users", userRoute);
+
 /* single post route */
 app.use("/", singlePost);
 
 /* home route */
 app.use("/", homeRouter);
+
+/* route end====================== */
 
 /* not found handler */
 app.use(notFoundHandler);
@@ -62,7 +74,7 @@ mongoose
   .then(() => {
     console.log("db connected");
     app.listen(port, () => {
-      console.log(`server is running at: ${port}`);
+      console.log(`server is running @${port}`);
     });
   })
   .catch((err) => {

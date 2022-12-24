@@ -1,4 +1,4 @@
-/* username check functionality */
+/*TODO: username check functionality =======================================*/
 let typeTimer;
 const username = document.querySelector("#username");
 const usermsg = document.querySelector("#userMsg");
@@ -10,8 +10,8 @@ username.addEventListener("keyup", function (e) {
   if (username.value) {
     typeTimer = setTimeout(() => {
       fetch(`http://localhost:3000/checkuser/${username.value}`)
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           if (data.username) {
             usermsg.hidden = false;
             usermsg.textContent = `${data.username} already taken`;
@@ -33,7 +33,7 @@ username.addEventListener("keydown", function (e) {
   clearTimeout(typeTimer);
 });
 
-/*email check */
+/*TODO:  email check ============================================== */
 const email = document.querySelector("#email");
 const emailMsg = document.querySelector("#emailMsg");
 emailMsg.hidden = true;
@@ -49,8 +49,8 @@ email.addEventListener("keyup", function (e) {
         );
       if (validMail) {
         fetch(`http://localhost:3000/checkemail/${email.value}`)
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             if (data.email) {
               emailMsg.hidden = false;
               emailMsg.textContent = `Email already exist`;
@@ -129,7 +129,7 @@ function validatePassword(p) {
   return errors;
 }
 
-// password check
+//TODO: password check
 function checkPassWord(password) {
   const errorResult = validatePassword(password);
   if (errorResult.length > 0) {
@@ -159,7 +159,7 @@ passwordField.addEventListener("keydown", function (e) {
   clearTimeout(typeTimer);
 });
 
-//confirm password check
+//TODO: confirm password check
 
 function confirmPassCheck(password) {
   if (password) {

@@ -56,10 +56,12 @@ leftSide.children[0].addEventListener("click", function () {
 
 /* modal area close */
 
-function createTweet(tweetObj) {
+function createTweet(tweetObj, pinned) {
   let removeBtn = "";
+  let pinBtn = "";
   let reTweetedHtml = "";
   let replyTo = "";
+  let pinFlag = "";
   let data = tweetObj;
   if (data.postData) {
     data = data.postData;
@@ -84,6 +86,17 @@ function createTweet(tweetObj) {
   } = data;
   /* delete post */
   if (tweetObj.tweetedBy?._id === user?._id) {
+    if (!tweetObj?.replyTo) {
+      pinBtn = `
+                    <a class="dropdown-item" href="#" >
+                      <button onclick ="pinPost('${tweetObj._id}', ${
+        tweetObj.pinned
+      })" class="removeBtn"> <i class="fas fa-thumbtack ${
+        tweetObj.pinned ? `active` : ""
+      }" ></i> ${tweetObj?.pinned ? "Unpin" : "Pin"} </button>
+                    </a>
+      `;
+    }
     removeBtn = `
                   <div class="dropleft">
                     <button data-toggle="dropdown" aria-expanded="false" class="postMore">
@@ -95,7 +108,10 @@ function createTweet(tweetObj) {
                       <a class="dropdown-item" href="#" >
                       <button onclick ="deletePost('${tweetObj._id}')" class="removeBtn"> <i class="fas fa-trash" ></i> Remove Tweet </button>
                       </a>
-    
+                      
+                      ${pinBtn}
+                      
+                      
                     </div>
                   </div>
           
@@ -148,8 +164,21 @@ function createTweet(tweetObj) {
 
   const postContainer = document.createElement("div");
   // postContainer.classList.add("tweet");
+
+  if (pinned) {
+    postContainer.classList.add("pinPost");
+    pinFlag = `
+      <div class="pinPostFlag">
+        <i class="fas fa-thumbtack"></i> 
+        <span>Pinned Post</span>
+      </div>
+    
+    `;
+  }
+
   postContainer.innerHTML = `
-      ${reTweetedHtml}
+  ${reTweetedHtml}
+  ${pinFlag}
       <div class="tweet" onclick="singlePostPage(event, '${postId}')">
       <div class="avatar_area">
         <div class="postedImg">
@@ -395,4 +424,37 @@ function retweetPosts(event, postId) {
         window.location.reload();
       }
     });
+}
+
+/* pinned post */
+function pinPost(postId, pin) {
+  Swal.fire({
+    title: `Are you sure`,
+    text: pin
+      ? "This will no longer appear automatically at the top of your profile."
+      : "This will appear at the top of your profile and replace any previously pinned Tweet.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#1A8CD8",
+    cancelButtonColor: "#d33",
+    confirmButtonText: pin ? "Unpin!" : `Pin`,
+  }).then(result => {
+    if (result.isConfirmed) {
+      const url = `${window.location.origin}/posts/${postId}/pin`;
+      fetch(url, {
+        method: "PUT",
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data._id) {
+            location.reload();
+          } else {
+            window.location.href = "/";
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  });
 }

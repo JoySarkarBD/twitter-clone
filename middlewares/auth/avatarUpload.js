@@ -4,6 +4,8 @@ const path = require("path");
 
 /* avatar upload middleware */
 function avatarUploader(req, res, next) {
+  //directory
+  // const upload_dir = path.join(__dirname, "/../../public/uploads/profile");
   const upload_dir = path.join(__dirname, "/../../temp");
   //file size
   const max_file_size = 100000000;

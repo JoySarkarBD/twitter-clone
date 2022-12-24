@@ -14,7 +14,7 @@ async function SinglePostHandler(req, res, next) {
       await postPopulate(newdata);
       return newdata;
     });
-
+    console.log(post);
     return res.json(post);
   } catch (error) {
     next(error);

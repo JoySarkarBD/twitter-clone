@@ -33,9 +33,6 @@ async function followHandler(e, userId) {
   }
 }
 
-/* followingBtn.textContent = data.following.length + " ";
-followersBtn.textContent = data.followers.length + " "; */
-
 /* display followers & following */
 const followers = (userProfile && userProfile?.followers) || [];
 const following = (userProfile && userProfile?.following) || [];

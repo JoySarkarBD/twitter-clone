@@ -1,6 +1,7 @@
 const deletePost = require("../../controllers/APIs/deletePost");
 const getAllPost = require("../../controllers/APIs/getAllPost");
 const likePost = require("../../controllers/APIs/likePost");
+const pinnedPostHandler = require("../../controllers/APIs/pinnedPostHandler");
 const replyHandler = require("../../controllers/APIs/replyHandler");
 const retweetHandler = require("../../controllers/APIs/retweetHandler");
 const tweetPost = require("../../controllers/APIs/tweetPost");
@@ -28,5 +29,8 @@ tweetRoute.post("/retweet/:id", loginChecker, retweetHandler);
 
 /* reply post */
 tweetRoute.post("/reply/:id", loginChecker, uploadTweetImage, replyHandler);
+
+/* pin || unpin post */
+tweetRoute.put("/:id/pin", loginChecker, pinnedPostHandler);
 
 module.exports = tweetRoute;

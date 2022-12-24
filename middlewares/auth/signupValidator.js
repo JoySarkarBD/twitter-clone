@@ -18,7 +18,7 @@ function signupValidator() {
       .withMessage("User Name Is Required")
       .toLowerCase()
       .isLength({ min: 3 })
-      .withMessage("Min Three Character Required")
+      .withMessage("Min Three Charecter Required")
       .custom(async (value, { req }) => {
         let user = await User.findOne({ username: value }, { username: 1 });
         if (user) {

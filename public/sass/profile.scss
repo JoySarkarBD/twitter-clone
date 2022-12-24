@@ -34,9 +34,8 @@ body {
 
 /* middle_side */
 .middle_side {
-  .top_heading_section {
-    display: flex;
-    height: 50px;
+  .mid_header_section {
+    height: 65px;
     border-bottom: 1px solid #2f3336;
     padding: 15px;
     z-index: 3;
@@ -47,10 +46,21 @@ body {
     border-left: 1px solid #2f3336;
     border-right: 1px solid #2f3336;
 
-    h4 {
-      color: #e7e9ea;
-      margin-left: 5px;
-      font-size: 19px;
+    .top_heading_section {
+      display: flex;
+
+      h4 {
+        color: #e7e9ea;
+        margin-left: 5px;
+        font-size: 19px;
+      }
+    }
+
+    .total_tweets-Count {
+      margin-left: 27px;
+      h6 {
+        color: #e7e9ea;
+      }
     }
   }
 
@@ -64,7 +74,7 @@ body {
     .coverImage {
       width: 600px;
       height: 300px;
-      margin-top: 50px;
+      margin-top: 65px;
 
       cursor: pointer;
 

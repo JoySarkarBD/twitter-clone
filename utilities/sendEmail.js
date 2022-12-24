@@ -10,14 +10,14 @@ const sendemail = async (receiver, data, cb) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PWD,
+        user: process.env.APP_EMAIL,
+        pass: process.env.APP_PWD,
       },
     });
 
     //options
     const options = {
-      from: process.env.EMAIL,
+      from: process.env.APP_EMAIL,
       to: receiver.join(","),
       subject: data.subject,
       html: data.template,

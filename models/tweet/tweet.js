@@ -42,6 +42,11 @@ const tweetSchema = new mongoose.Schema(
         ref: "Tweet",
       },
     ],
+
+    pinned: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
