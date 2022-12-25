@@ -8,6 +8,7 @@ const {
   updateOrSetdata,
 } = require("../../utilities/cacheManager");
 const postPopulate = require("../../utilities/postPopulat");
+const fs = require("fs");
 
 const deletePost = async (req, res, next) => {
   try {
@@ -66,7 +67,7 @@ const deletePost = async (req, res, next) => {
 
     /* delete retweet post on user model */
     if (deletedPost?.retweetUsers.length) {
-      deletedPost?.retweetUsers.forEach(async userId => {
+      deletedPost?.retweetUsers.forEach(async (userId) => {
         const retweetUser = await User.findOneAndUpdate(
           { _id: userId },
           { $pull: { retweetPost: deletedPost._id } },
@@ -76,29 +77,33 @@ const deletePost = async (req, res, next) => {
       });
     }
 
-    /* delete all user on retweeted post */
-    if (deletedPost?.retweetUsers.length) {
-      deletedPost?.retweetUsers.forEach(async userId => {
-        const deletedRetweetedpost = await Tweet.findOneAndDelete(
-          {
-            postData: deletedPost._id,
-            tweetedBy: userId,
-          },
-          { new: true }
-        );
-        await deleteCache(`posts:${deletedRetweetedpost._id}`);
-      });
-    }
-
     /* delete "like" from deleted post and update user modal */
     if (deletedPost?.likes.length) {
-      deletedPost?.likes.forEach(async userId => {
+      deletedPost?.likes.forEach(async (userId) => {
         const user = await User.findOneAndUpdate(
           { _id: userId },
           { $pull: { likes: deletedPost._id } },
           { new: true }
         );
         await updateOrSetdata(`users:${user._id}`, user);
+      });
+    }
+    /* delete photos from machine storage */
+    if (deletedPost?.tweetImages && deletedPost?.tweetImages.length) {
+      deletedPost?.tweetImages.forEach((photo) => {
+        fs.unlink(
+          path.join(
+            __dirname,
+            `./../../public/uploads/${deletedPost.tweetedBy}/tweets/${photo}`
+          ),
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(photo + ` deleted successfully`);
+            }
+          }
+        );
       });
     }
     res.json(deletedPost);
