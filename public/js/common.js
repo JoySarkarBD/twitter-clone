@@ -30,7 +30,7 @@ option.addEventListener("click", function (e) {
 
 //middle & right side modal closing function
 
-[middleSide, rightSide].forEach(el => {
+[middleSide, rightSide].forEach((el) => {
   el.addEventListener("click", function (e) {
     if (this.className === "middle_side") {
       if (!modal.hidden) {
@@ -237,7 +237,7 @@ function createTweet(tweetObj, pinned) {
       `;
   const imgContainer = postContainer.querySelector("div.images");
 
-  tweetImages.forEach(img => {
+  tweetImages.forEach((img) => {
     const imgDiv = document.createElement("div");
     imgDiv.classList.add("postImg");
     imgDiv.innerHTML = `<img src="${window.location.origin}/uploads/${_id}/tweets/${img}" alt=""/>`;
@@ -246,7 +246,7 @@ function createTweet(tweetObj, pinned) {
   return postContainer;
 }
 
-/* =============== active/disable TODO:reply btn by depending on content ================== */
+/* active/disable TODO:reply btn by depending on content */
 
 replyContent.addEventListener("input", function (e) {
   if (this.value) {
@@ -256,11 +256,11 @@ replyContent.addEventListener("input", function (e) {
   }
 });
 
-/* ===========TODO:Reply image upload[img show or remove function] =====================*/
+/* TODO:Reply image upload[img show or remove function] */
 
 replyImgFile.addEventListener("change", function (e) {
   replyBtn.removeAttribute("disabled");
-  [...this.files].forEach(file => {
+  [...this.files].forEach((file) => {
     if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) return;
     replyImages.push(file);
     const reader = new FileReader();
@@ -297,7 +297,7 @@ replyImgContainer.addEventListener("click", function (e) {
   });
 });
 
-/* tweetReply============================= */
+/* tweetReply*/
 
 function tweetReply(event, postId) {
   let replyBtn = event.target;
@@ -315,7 +315,7 @@ function tweetReply(event, postId) {
 
     const formData = new FormData();
     formData.append("content", content);
-    replyImages.forEach(file => {
+    replyImages.forEach((file) => {
       formData.append(file.name, file);
     });
 
@@ -324,13 +324,13 @@ function tweetReply(event, postId) {
       method: "POST",
       body: formData,
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data) {
           window.location.reload();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   });
@@ -366,28 +366,28 @@ function deletePost(postId) {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Yes, delete it!",
-  }).then(result => {
+  }).then((result) => {
     if (result.isConfirmed) {
       const url = `${window.location.origin}/posts/${postId}`;
       fetch(url, {
         method: "DELETE",
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data) {
             window.location.reload();
           } else {
             window.location.href = `/`;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
   });
 }
 
-/* like a post ========================================================*/
+/* like a post */
 
 function likePost(event, postId) {
   const likeBtn = event.target;
@@ -396,8 +396,8 @@ function likePost(event, postId) {
   fetch(url, {
     method: "PUT",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       const post = data.post;
       const userId = data.user._id;
       if (post.likes.includes(userId)) {
@@ -409,7 +409,7 @@ function likePost(event, postId) {
     });
 }
 
-/* retweet post ============================================================ */
+/* retweet post */
 
 function retweetPosts(event, postId) {
   const retweetBtn = event.target;
@@ -418,8 +418,8 @@ function retweetPosts(event, postId) {
   fetch(url, {
     method: "POST",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data) {
         window.location.reload();
       }
@@ -438,21 +438,21 @@ function pinPost(postId, pin) {
     confirmButtonColor: "#1A8CD8",
     cancelButtonColor: "#d33",
     confirmButtonText: pin ? "Unpin!" : `Pin`,
-  }).then(result => {
+  }).then((result) => {
     if (result.isConfirmed) {
       const url = `${window.location.origin}/posts/${postId}/pin`;
       fetch(url, {
         method: "PUT",
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data._id) {
             location.reload();
           } else {
             window.location.href = "/";
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
