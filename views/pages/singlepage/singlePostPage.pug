@@ -14,9 +14,11 @@ block jsScript
     script(src="/js/common.js" defer) 
     script(src="/js/singlePostPage.js" defer) 
 
+
 //- body 
 block bodyContent
     -avatarSrc = user.profileAvatar ? `/uploads/${user._id}/profile/${user.profileAvatar}` : `/uploads/profile/profileAvatar.png`
+
 
     #replyModal.modal.fade(tabindex='-1', aria-labelledby='replayModalTitle',          aria-hidden='true')
         .modal-dialog

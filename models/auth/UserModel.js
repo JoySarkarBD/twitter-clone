@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
       validator: {
-        validate: value => {
+        validate: (value) => {
           return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             value
           );
@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       validator: {
-        validate: value => {
+        validate: (value) => {
           return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8}$/.test(value);
         },
       },
@@ -87,7 +87,11 @@ const UserSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+
+    activeStatus: Boolean,
+    lastSeen: Date,
   },
+
   {
     timestamps: true,
   }
